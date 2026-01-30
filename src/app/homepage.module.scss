@@ -1,3 +1,13 @@
 .page {
-  //
+  max-width: 50rem;
+  margin: 0 auto;
+  padding-block: 2rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-block: 2rem;
 }
