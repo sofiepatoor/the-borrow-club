@@ -1,2 +1,5 @@
 // update the session expiry every time its called to keep session alive
-export { auth as middleware } from '@/auth';
+import NextAuth from 'next-auth';
+import authConfig from '@/auth.config';
+
+export const { auth: middleware } = NextAuth(authConfig);
