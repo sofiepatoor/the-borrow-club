@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📦 The Borrow Club: a Shared Physical Media Library
 
-## Getting Started
+## Concept
 
-First, run the development server:
+A **web app** where people can list the **physical media they own** (books, DVDs, games, etc.) in a digital library and connect with friends to view and borrow items.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Current features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Library view** – See all items in the library with their owners
+- **Add items** – Add new items with a title and assign an owner
+- **Users & items** – Users can own multiple items; items are linked to owners
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Roadmap
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- [x] Simple library view (list all items with owners)
+- [x] Add items (title + owner)
+- [x] Users & items data model (simplified)
+- [ ] User authentication (sign up & login)
+- [ ] Users only see their own items in their library
+- [ ] Borrowing flow (request, mark as borrowed/returned)
+- [ ] Item media types (e.g. books, DVDs, games)
+- [ ] Search and filter the library
+- [ ] User profiles / friend connections
+- [ ] Notifications (e.g. borrow requests)
 
-## Learn More
+## Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+### Frontend
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Next.js 16 (App Router)
+- React 19
+- TypeScript
+- CSS Modules + SCSS
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Backend
 
-## Deploy on Vercel
+- Next.js Server Actions
+- Prisma ORM (schema & migrations)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Database
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- PostgreSQL hosted on Neon
+
+### Deployment
+
+- Vercel
