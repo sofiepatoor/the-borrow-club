@@ -26,13 +26,14 @@ This is a common issue when using Auth.js with a database adapter (e.g. Prisma) 
 We use the **split config** approach recommended by Auth.js:
 
 1. **`auth.config.ts`**  
-   Shared config with **only** providers (and other non-DB options). No adapter, no Prisma. Safe to load in the Edge runtime.
+   Edge-safe config: no adapter, no Prisma. **Do not add providers that require an adapter** (e.g. Email/Resend). If the Email provider were here, the middleware would run `NextAuth(authConfig)` on every matched request and Auth.js would throw `MissingAdapter` once per page load. Providers that need an adapter (e.g. Resend) live only in `auth.ts`.
 
 2. **`auth.ts`**  
-   Full config: imports `authConfig`, adds `PrismaAdapter(prisma)` and `session: { strategy: 'jwt' }`. Used by API routes and server code. **Not** imported by middleware.
+   Full config: imports `authConfig`, adds `PrismaAdapter(prisma)`, `session: { strategy: 'jwt' }`, and providers that require an adapter (e.g. Resend). Used by API routes and server code. **Not** imported by middleware.
 
 3. **`middleware.ts`**  
-   Creates its own Auth.js instance with `NextAuth(authConfig)` only. No Prisma or adapter, so no Node-only code runs in the Edge.
+   Creates its own Auth.js instance with `NextAuth(authConfig)` only. No Prisma or adapter, so no Node-only code runs in the Edge.  
+   **Important:** The middleware **matcher** must exclude `/api/auth` so that sign-in, callback, and other auth API requests are handled by the Node.js route (`app/api/auth/[...nextauth]/route.ts`), which uses the full config from `auth.ts` (including the adapter). If the middleware ran on `/api/auth`, those requests would be handled by the Edge Auth instance (no adapter) and you’d get `[auth][error] MissingAdapter` when using an Email provider (e.g. Resend), because email login requires an adapter to store verification tokens.
 
 4. **JWT session strategy**  
    Session is stored in a signed cookie. Middleware can read/update the cookie and protect routes without any database calls.
@@ -41,9 +42,9 @@ We use the **split config** approach recommended by Auth.js:
 
 | File              | Role |
 |-------------------|------|
-| `src/auth.config.ts` | Edge-safe config (providers only). |
-| `src/auth.ts`        | Full config with Prisma adapter + JWT. Used everywhere except middleware. |
-| `src/middleware.ts`  | Uses `NextAuth(authConfig)` only—no Prisma. |
+| `src/auth.config.ts` | Edge-safe config: no adapter, no providers that require an adapter (e.g. no Email/Resend). |
+| `src/auth.ts`        | Full config with Prisma adapter + JWT + Resend (and any adapter-requiring providers). Used everywhere except middleware. |
+| `src/middleware.ts`  | Uses `NextAuth(authConfig)` only—no Prisma. Excludes `/api/auth` via `config.matcher` so auth API requests use the full config (with adapter). |
 
 ### Trade-offs
 
@@ -93,4 +94,4 @@ The split config is a **workaround** for Prisma (and similar DB clients) not bei
 
 ---
 
-*Last updated: 2025-01-31*
+*Last updated: 2025-01-31 (added middleware matcher to fix MissingAdapter with Email provider).*
