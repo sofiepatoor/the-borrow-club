@@ -11,5 +11,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ),
   session: { strategy: 'jwt' },
   ...authConfig,
-  providers: [...(authConfig.providers ?? []), Resend],
+  providers: [
+    ...(authConfig.providers ?? []),
+    Resend({
+      from: 'The Borrow Club <noreply@mail.sofiepatoor.be>',
+    }),
+  ],
 });

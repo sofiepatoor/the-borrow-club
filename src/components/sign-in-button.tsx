@@ -1,6 +1,6 @@
 import { signIn } from '@/auth';
 
-export function SignIn() {
+export function SignInButton() {
   return (
     <form
       action={async (formData) => {
