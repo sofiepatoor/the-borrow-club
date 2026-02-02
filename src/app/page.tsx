@@ -1,10 +1,11 @@
 import { createItem } from '@/app/actions/items';
 import { prisma } from '@/lib/prisma';
+import { auth } from '@/auth';
 
 import { SignInButton } from '@/components/sign-in-button';
+import { SignOutButton } from '@/components/sign-out-button';
 
 import styles from './homepage.module.scss';
-import { auth, signOut } from '@/auth';
 
 export default async function Home() {
   const session = await auth();
@@ -24,7 +25,10 @@ export default async function Home() {
       <SignInButton />
 
       {session?.user ? (
-        <p>Signed in as {session.user?.email}</p>
+        <>
+          <p>Signed in as {session.user?.email}</p>
+          <SignOutButton />
+        </>
       ) : (
         <p>Not signed in</p>
       )}
