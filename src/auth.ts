@@ -10,6 +10,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     prisma as unknown as Parameters<typeof PrismaAdapter>[0],
   ),
   session: { strategy: 'jwt' },
+  callbacks: {
+    jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+    session({ session, token }) {
+      session.user.id = token.id as string;
+      return session;
+    },
+  },
   ...authConfig,
   providers: [
     ...(authConfig.providers ?? []),

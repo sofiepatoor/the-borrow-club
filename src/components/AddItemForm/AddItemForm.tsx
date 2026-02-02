@@ -1,5 +1,4 @@
 import { auth } from '@/auth';
-import { prisma } from '@/lib/prisma';
 import { createItem } from '@/app/actions/items';
 
 import Button from '../Button';
@@ -8,12 +7,9 @@ import styles from './add-item-form.module.scss';
 
 async function AddItemForm() {
   const session = await auth();
-  const userEmail = session?.user?.email ?? '';
-  const user = await prisma.user.findUnique({
-    where: { email: userEmail },
-  });
+  const userId = session?.user?.id;
 
-  if (!user) {
+  if (!userId) {
     return null;
   }
 
@@ -27,7 +23,7 @@ async function AddItemForm() {
         required
         placeholder="Item title"
       />
-      <input type="hidden" name="ownerId" value={user.id} />
+      <input type="hidden" name="ownerId" value={userId} />
       <Button type="submit">Add item</Button>
     </form>
   );
