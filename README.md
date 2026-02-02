@@ -17,11 +17,13 @@ A **web app** where people can list the **physical media they own** (books, DVDs
 - [x] Users & items data model (simplified)
 - [ ] User authentication (login & logout)
 - [ ] Users can only see / add their own items in their library
+- [ ] Users can add other users as friends and see their library
 - [ ] Borrowing flow (request, mark as borrowed/returned)
-- [ ] Item media types (e.g. books, DVDs, games)
+- [ ] Item media types (e.g. books, DVDs, games) and more fields
+- [ ] Option to fetch metadata of items
+- [ ] User groups and item visibility restriction
 - [ ] Search and filter the library
-- [ ] User profiles / friend connections
-- [ ] Notifications (e.g. borrow requests)
+- [ ] User profile customization
 
 ## Tech Stack
 
@@ -35,9 +37,10 @@ A **web app** where people can list the **physical media they own** (books, DVDs
 ### Backend & Database
 
 - PostgreSQL hosted on Neon
-- Next.js Server Actions
 - Prisma ORM (schema & migrations)
-- NextAuth.js (authentication with email magic links)
+- Next.js Server Actions
+- NextAuth.js (authentication)
+- Resend (email provider for magic links)
 
 ### Other
 
