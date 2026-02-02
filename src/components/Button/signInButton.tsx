@@ -1,4 +1,5 @@
 import { signIn } from '@/auth';
+import Button from './Button';
 
 export function SignInButton() {
   return (
@@ -9,7 +10,7 @@ export function SignInButton() {
       }}
     >
       <input type="text" name="email" placeholder="Email" />
-      <button type="submit">Signin with Resend</button>
+      <Button type="submit">Sign in</Button>
     </form>
   );
 }

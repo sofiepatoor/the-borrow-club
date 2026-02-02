@@ -1,0 +1,13 @@
+.wrapper {
+  background-color: var(--foreground);
+  color: var(--background);
+  border: 1px solid var(--foreground);
+  cursor: pointer;
+  border-radius: 4px;
+
+  &:hover,
+  &:focus {
+    background-color: darkslategray;
+    border-color: darkslategray;
+  }
+}
