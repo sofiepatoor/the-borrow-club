@@ -15,8 +15,8 @@ A **web app** where people can list the **physical media they own** (books, DVDs
 - [x] Simple library view (list all items with owners)
 - [x] Add items (title + owner)
 - [x] Users & items data model (simplified)
-- [ ] User authentication (sign up & login)
-- [ ] Users only see their own items in their library
+- [ ] User authentication (login & logout)
+- [ ] Users can only see / add their own items in their library
 - [ ] Borrowing flow (request, mark as borrowed/returned)
 - [ ] Item media types (e.g. books, DVDs, games)
 - [ ] Search and filter the library
@@ -32,15 +32,13 @@ A **web app** where people can list the **physical media they own** (books, DVDs
 - TypeScript
 - CSS Modules + SCSS
 
-### Backend
-
-- Next.js Server Actions
-- Prisma ORM (schema & migrations)
-
-### Database
+### Backend & Database
 
 - PostgreSQL hosted on Neon
+- Next.js Server Actions
+- Prisma ORM (schema & migrations)
+- NextAuth.js (authentication with email magic links)
 
-### Deployment
+### Other
 
-- Vercel
+- Vercel (deployment)
