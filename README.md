@@ -15,8 +15,8 @@ A **web app** where people can list the **physical media they own** (books, DVDs
 - [x] Simple library view (list all items with owners)
 - [x] Add items (title + owner)
 - [x] Users & items data model (simplified)
-- [ ] User authentication (login & logout)
-- [ ] Users can only see / add their own items in their library
+- [x] User authentication (login & logout)
+- [x] Users can only see / add their own items in their library
 - [ ] Users can add other users as friends and see their library
 - [ ] Borrowing flow (request, mark as borrowed/returned)
 - [ ] Item media types (e.g. books, DVDs, games) and more fields
