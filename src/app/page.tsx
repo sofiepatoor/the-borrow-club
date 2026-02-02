@@ -18,11 +18,8 @@ export default async function Home() {
   ]);
 
   return (
-    <div className={styles.page}>
+    <div className={styles.wrapper}>
       <h1>The Borrow Club</h1>
-
-      <h2>Sign in</h2>
-      <SignInButton />
 
       {session?.user ? (
         <>
