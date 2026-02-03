@@ -14,6 +14,25 @@ model Item {
   ownerId String
 }
 
+model Friendship {
+  id        Int     @id @default(autoincrement())
+  userId    String
+  friendId  String
+  user      User    @relation("UserFriendships", fields: [userId], references: [id])
+  friend    User    @relation("FriendOf", fields: [friendId], references: [id])
+  status    FriendshipStatus @default(PENDING)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, friendId])
+}
+
+enum FriendshipStatus {
+  PENDING
+  ACCEPTED
+  BLOCKED
+}
+
 // Auth
 
 model User {
@@ -26,6 +45,10 @@ model User {
 
   accounts      Account[]
   sessions      Session[]
+
+  friendships Friendship[] @relation("UserFriendships")
+  friendsOf   Friendship[] @relation("FriendOf")
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
