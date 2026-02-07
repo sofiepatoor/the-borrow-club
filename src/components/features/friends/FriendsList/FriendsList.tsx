@@ -11,7 +11,7 @@ import { type User } from '@/generated/prisma/client';
 import { FriendshipStatus } from '@/generated/prisma/enums';
 
 import styles from './friends-list.module.scss';
-import Button from '../Button/Button';
+import Button from '@/components/ui/Button';
 
 async function FriendsList() {
   const session = await auth();

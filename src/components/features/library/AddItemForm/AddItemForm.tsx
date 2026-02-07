@@ -1,7 +1,7 @@
 import { auth } from '@/auth';
 import { createItem } from '@/app/actions/items';
 
-import Button from '../Button';
+import Button from '@/components/ui/Button';
 
 import styles from './add-item-form.module.scss';
 

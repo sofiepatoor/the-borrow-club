@@ -15,7 +15,6 @@ async function ItemsList() {
 
   return (
     <div className={styles.wrapper}>
-      <p>User ID: {userId}</p>
       <ul>
         {items.map((item) => (
           <li key={item.id}>

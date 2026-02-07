@@ -1,10 +1,10 @@
 import { auth } from '@/auth';
 
-import { SignInButton } from '@/components/Button/signInButton';
-import { SignOutButton } from '@/components/Button/signOutButton';
-import ItemsList from '@/components/ItemsList';
-import FriendsList from '@/components/FriendsList';
-import AddItemForm from '@/components/AddItemForm';
+import { SignInButton } from '@/components/ui/Button/signInButton';
+import { SignOutButton } from '@/components/ui/Button/signOutButton';
+import ItemsList from '@/components/features/library/ItemsList';
+import FriendsList from '@/components/features/friends/FriendsList';
+import AddItemForm from '@/components/features/library/AddItemForm';
 
 import styles from './homepage.module.scss';
 
