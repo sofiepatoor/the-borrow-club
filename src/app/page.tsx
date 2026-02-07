@@ -3,6 +3,7 @@ import { auth } from '@/auth';
 import { SignInButton } from '@/components/Button/signInButton';
 import { SignOutButton } from '@/components/Button/signOutButton';
 import ItemsList from '@/components/ItemsList';
+import FriendsList from '@/components/FriendsList';
 import AddItemForm from '@/components/AddItemForm';
 
 import styles from './homepage.module.scss';
@@ -23,14 +24,25 @@ export default async function Home() {
     <div className={styles.wrapper}>
       <h1>The Borrow Club</h1>
 
-      <p>Signed in as: {session.user?.email}</p>
-      <SignOutButton />
+      <section className={styles.section}>
+        <p>Signed in as: {session.user?.email}</p>
+        <SignOutButton />
+      </section>
 
-      <h2>My library</h2>
-      <ItemsList />
+      <section className={styles.section}>
+        <h2>Users</h2>
+        <FriendsList />
+      </section>
 
-      <h3>Add item</h3>
-      <AddItemForm />
+      <section className={styles.section}>
+        <h2>My library</h2>
+        <ItemsList />
+      </section>
+
+      <section className={styles.section}>
+        <h3>Add item</h3>
+        <AddItemForm />
+      </section>
     </div>
   );
 }
