@@ -1,34 +1,44 @@
 import { auth } from '@/auth';
-import { User } from 'next-auth';
 import {
   createFriendship,
-  findFriendship,
   deleteFriendship,
   type FriendshipWithFriend,
   getFriendshipsForUser,
-  getReceivedFriendRequests,
-  getSentFriendshipRequests,
   acceptFriendship,
 } from '@/app/actions/friendships';
 import { getAllUsersExceptCurrent } from '@/app/actions/users';
+import { type User } from '@/generated/prisma/client';
+import { FriendshipStatus } from '@/generated/prisma/enums';
 
 import styles from './friends-list.module.scss';
 import Button from '../Button/Button';
-import { FriendshipStatus } from '@/generated/prisma/enums';
 
 async function FriendsList() {
   const session = await auth();
   const currentUserId = session?.user?.id ?? '';
 
-  const [otherUsers, receivedFriendRequests, sentFriendRequests, friends] =
-    await Promise.all([
-      getAllUsersExceptCurrent(currentUserId),
-      currentUserId ? getReceivedFriendRequests(currentUserId) : [],
-      currentUserId ? getSentFriendshipRequests(currentUserId) : [],
-      currentUserId
-        ? getFriendshipsForUser(currentUserId, FriendshipStatus.ACCEPTED)
-        : [],
-    ]);
+  const otherUsers = await getAllUsersExceptCurrent(currentUserId);
+  const allFriendships = await getFriendshipsForUser(currentUserId);
+
+  const sentFriendRequests = allFriendships.filter(
+    (f: FriendshipWithFriend) =>
+      f.userId === currentUserId && f.status === FriendshipStatus.PENDING,
+  );
+  const receivedFriendRequests = allFriendships.filter(
+    (f: FriendshipWithFriend) =>
+      f.friendId === currentUserId && f.status === FriendshipStatus.PENDING,
+  );
+  const friends = allFriendships.filter(
+    (f: FriendshipWithFriend) => f.status === FriendshipStatus.ACCEPTED,
+  );
+
+  const userIdsWithRelationship = new Set([
+    ...friends.map((f: FriendshipWithFriend) =>
+      f.userId === currentUserId ? f.friendId : f.userId,
+    ),
+    ...sentFriendRequests.map((f: FriendshipWithFriend) => f.friendId),
+    ...receivedFriendRequests.map((f: FriendshipWithFriend) => f.userId),
+  ]);
 
   return (
     <div className={styles.wrapper}>
@@ -36,14 +46,13 @@ async function FriendsList() {
         <strong>All users</strong>
       </p>
       <ul>
-        {otherUsers.map(async (user: User) => {
-          const friendship = await findFriendship(user.id ?? '');
+        {otherUsers.map((user: User) => {
+          const hasRelationship = userIdsWithRelationship.has(user.id ?? '');
           return (
             <li key={user.id}>
               <div>{user.email}</div>
-              {!friendship && (
+              {!hasRelationship && (
                 <form action={createFriendship}>
-                  <input type="hidden" name="userId" value={currentUserId} />
                   <input type="hidden" name="friendId" value={user.id} />
                   <Button type="submit">Add friend</Button>
                 </form>
