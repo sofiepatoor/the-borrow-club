@@ -13,7 +13,7 @@ export default async function Home() {
 
   if (!session) {
     return (
-      <div className={styles.wrapper}>
+      <div className={styles.loginWrapper}>
         <h1>The Borrow Club</h1>
         <SignInButton />
       </div>
@@ -22,24 +22,21 @@ export default async function Home() {
 
   return (
     <div className={styles.wrapper}>
-      <h1>The Borrow Club</h1>
+      <h1 className={styles.pageTitle}>The Borrow Club</h1>
 
-      <section className={styles.section}>
+      <section className={styles.usersSection}>
         <p>Signed in as: {session.user?.email}</p>
         <SignOutButton />
-      </section>
-
-      <section className={styles.section}>
         <h2>Users</h2>
         <FriendsList />
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.librarySection}>
         <h2>My library</h2>
         <ItemsList />
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.addItemSection}>
         <h3>Add item</h3>
         <AddItemForm />
       </section>

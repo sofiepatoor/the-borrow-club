@@ -1,4 +1,4 @@
-.wrapper {
+.loginWrapper {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -8,14 +8,45 @@
   margin: 0 auto;
 }
 
+.wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    "title title"
+    "library users"
+    "add-item users";
+  gap: 1rem;
+  width: 100%;
+  max-width: var(--content-width);
+  padding: 64px var(--viewport-padding);
+  margin: 0 auto;
+
+  section {
+    margin-block: 1rem;
+  }
+}
+
+.pageTitle {
+  grid-area: title;
+}
+
+.usersSection {
+  grid-area: users;
+}
+
+.librarySection {
+  grid-area: library;
+}
+
+.addItemSection {
+  grid-area: add-item;
+}
+
 .form {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 0.5rem;
   margin-block: 2rem;
-}
-
-.section {
-  margin-block: 1rem;
 }
