@@ -5,6 +5,29 @@ import { FriendshipStatus } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 import { auth } from '@/auth';
 
+export async function getFriendsForUser(userId: string) {
+  return await prisma.friendship.findMany({
+    where: {
+      OR: [{ userId }, { friendId: userId }],
+      status: FriendshipStatus.ACCEPTED,
+    },
+    include: { friend: true, user: true },
+  });
+}
+
+export async function getFriendIdsForUser(userId: string) {
+  const friendships = await prisma.friendship.findMany({
+    where: {
+      OR: [{ userId }, { friendId: userId }],
+      status: FriendshipStatus.ACCEPTED,
+    },
+    select: { userId: true, friendId: true },
+  });
+  return friendships.map((f) =>
+    f.userId === userId ? f.friendId : f.userId,
+  );
+}
+
 export async function getFriendshipsForUser(
   userId: string,
   status?: FriendshipStatus,

@@ -1,24 +1,22 @@
-import { auth } from '@/auth';
-import { prisma } from '@/lib/prisma';
-
+import type { Item, User } from '@/generated/prisma/client';
 import styles from './items-list.module.scss';
 
-async function ItemsList() {
-  const session = await auth();
-  const userId = session?.user?.id ?? '';
+type ItemWithOwner = Item & { owner: User | null };
 
-  const items = await prisma.item.findMany({
-    where: { ownerId: userId },
-    orderBy: { id: 'desc' },
-    include: { owner: true },
-  });
+async function ItemsList({ items }: { items: ItemWithOwner[] }) {
+  if (items.length === 0) {
+    return <p>No items found</p>;
+  }
 
   return (
     <div className={styles.wrapper}>
       <ul>
         {items.map((item) => (
           <li key={item.id}>
-            <p>{item.title}</p>
+            <p>
+              <strong>{item.title}</strong>
+            </p>
+            <p>Owned by: {item.owner?.email}</p>
           </li>
         ))}
       </ul>

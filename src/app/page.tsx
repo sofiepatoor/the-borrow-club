@@ -2,11 +2,10 @@ import { auth } from '@/auth';
 
 import { SignInButton } from '@/components/ui/Button/signInButton';
 import { SignOutButton } from '@/components/ui/Button/signOutButton';
-import ItemsList from '@/components/features/library/ItemsList';
 import FriendsList from '@/components/features/friends/FriendsList';
-import AddItemForm from '@/components/features/library/AddItemForm';
 
 import styles from './homepage.module.scss';
+import Link from 'next/link';
 
 export default async function Home() {
   const session = await auth();
@@ -33,12 +32,7 @@ export default async function Home() {
 
       <section className={styles.librarySection}>
         <h2>My library</h2>
-        <ItemsList />
-      </section>
-
-      <section className={styles.addItemSection}>
-        <h3>Add item</h3>
-        <AddItemForm />
+        <Link href="/library">View my library</Link>
       </section>
     </div>
   );
