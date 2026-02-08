@@ -10,8 +10,53 @@ datasource db {
 model Item {
   id      Int     @id @default(autoincrement())
   title   String
-  owner   User    @relation(fields: [ownerId], references: [id])
   ownerId String
+  owner   User    @relation(fields: [ownerId], references: [id])
+
+  isAvailable  Boolean @default(true)
+  loans        Loan[]
+  loanRequests LoanRequest[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model LoanRequest {
+  id      String @id @default(cuid())
+  status  LoanRequestStatus @default(PENDING)
+
+  itemId  Int
+  item    Item   @relation(fields: [itemId], references: [id])
+
+  requesterId String
+  requester   User   @relation("LoanRequestRequester", fields: [requesterId], references: [id])
+
+  ownerId   String
+  owner     User   @relation("LoanRequestOwner", fields: [ownerId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum LoanRequestStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+model Loan {
+  id      String @id @default(cuid())
+  itemId  Int
+  item    Item   @relation(fields: [itemId], references: [id])
+
+  requesterId String
+  requester   User   @relation("LoanRequester", fields: [requesterId], references: [id])
+
+  ownerId   String
+  owner     User   @relation("LoanOwner", fields: [ownerId], references: [id])
+
+  startedAt DateTime @default(now())
+  endedAt   DateTime?
 }
 
 model Friendship {
@@ -48,6 +93,11 @@ model User {
 
   friendships Friendship[] @relation("UserFriendships")
   friendsOf   Friendship[] @relation("FriendOf")
+
+  loanRequestsAsRequester LoanRequest[] @relation("LoanRequestRequester")
+  loanRequestsAsOwner     LoanRequest[] @relation("LoanRequestOwner")
+  loansAsRequester        Loan[]        @relation("LoanRequester")
+  loansAsOwner            Loan[]        @relation("LoanOwner")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
