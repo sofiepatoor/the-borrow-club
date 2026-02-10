@@ -6,11 +6,18 @@ A **web app** where people can list the **physical media they own** (books, DVDs
 
 ## Current features
 
-- **Library view** – See all items in the library with their owners
-- **Add items** – Add new items with a title and assign an owner
-- **Users & items** – Users can own multiple items; items are linked to owners
+- **Library view** – One page showing your items and your friends’ items, with owner shown per item
+- **Add items** – Add new items to your library (title only)
+- **Items & ownership** – Each item has one owner; a user can own many items
+- **Authentication** – Login and logout via magic link (email)
+- **Personal library** – Users only see and manage their own items in their library
+- **Friends** – Add other users as friends (send/accept/reject friend requests)
+- **Friends’ library** – View items owned by accepted friends
+- **Borrowing flow** – Request to borrow an item; owner can accept or reject; mark as borrowed when accepted and mark as returned when done
 
 ## Roadmap
+
+### MVP
 
 - [x] Simple library view (list all items with owners)
 - [x] Add items (title + owner)
@@ -19,7 +26,10 @@ A **web app** where people can list the **physical media they own** (books, DVDs
 - [x] Users can only see / add their own items in their library
 - [x] Users can add other users as friends
 - [x] Users can see their friends' library
-- [ ] Borrowing flow (request, mark as borrowed/returned)
+- [x] Borrowing flow (request, mark as borrowed/returned)
+
+### Post-MVP
+
 - [ ] Users can edit their profile
 - [ ] Users can view other users' profile pages
 - [ ] Item media types (e.g. books, DVDs, games) and more fields
