@@ -30,3 +30,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
 });
+
+export const getCurrentUserId = async () => {
+  const session = await auth();
+  return session?.user?.id ?? null;
+};

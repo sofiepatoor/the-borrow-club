@@ -1,7 +1,8 @@
 import type { Item, User } from '@/generated/prisma/client';
-import styles from './items-list.module.scss';
-
+import ItemCard from '../ItemCard';
 type ItemWithOwner = Item & { owner: User | null };
+
+import styles from './items-list.module.scss';
 
 async function ItemsList({ items }: { items: ItemWithOwner[] }) {
   if (items.length === 0) {
@@ -10,13 +11,10 @@ async function ItemsList({ items }: { items: ItemWithOwner[] }) {
 
   return (
     <div className={styles.wrapper}>
-      <ul>
+      <ul className={styles.list}>
         {items.map((item) => (
           <li key={item.id}>
-            <p>
-              <strong>{item.title}</strong>
-            </p>
-            <p>Owned by: {item.owner?.email}</p>
+            <ItemCard item={item} />
           </li>
         ))}
       </ul>
