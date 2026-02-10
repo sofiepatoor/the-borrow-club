@@ -7,6 +7,7 @@ import {
   rejectLoanRequest,
   cancelLoanRequest,
 } from '../actions/loan-requests';
+import { getLoansForUser, returnLoan } from '../actions/loans';
 
 import Link from 'next/link';
 import AddItemForm from '@/components/features/library/AddItemForm';
@@ -22,6 +23,9 @@ export default async function LibraryPage() {
   const items = await getVisibleItemsForUser(userId);
   const sentLoanRequests = await getSentLoanRequestsForUser(userId!);
   const receivedLoanRequests = await getReceivedLoanRequestsForUser(userId!);
+  const loans = await getLoansForUser(userId!);
+  const activeLoans = loans.filter((loan) => !loan.endedAt);
+  const completedLoans = loans.filter((loan) => loan.endedAt);
 
   return (
     <div className={styles.wrapper}>
@@ -78,6 +82,42 @@ export default async function LibraryPage() {
                   />
                   <Button type="submit">Reject</Button>
                 </form>
+              </li>
+            ))}
+          </ul>
+
+          <h2>Current loans</h2>
+          <ul>
+            {activeLoans.map((loan) => (
+              <li key={loan.id}>
+                <p>
+                  <strong>{loan.item.title}</strong>
+                </p>
+                <p>Borrower: {loan.requester.email}</p>
+                <p>Owner: {loan.owner.email}</p>
+                <p>Started at: {loan.startedAt.toLocaleDateString()}</p>
+                {loan.endedAt && (
+                  <p>Ended at: {loan.endedAt.toLocaleDateString()}</p>
+                )}
+                <form action={returnLoan}>
+                  <input type="hidden" name="loanId" value={loan.id} />
+                  <Button type="submit">Return</Button>
+                </form>
+              </li>
+            ))}
+          </ul>
+
+          <h2>Completed loans</h2>
+          <ul>
+            {completedLoans.map((loan) => (
+              <li key={loan.id}>
+                <p>
+                  <strong>{loan.item.title}</strong>
+                </p>
+                <p>Borrower: {loan.requester.email}</p>
+                <p>Owner: {loan.owner.email}</p>
+                <p>Started at: {loan.startedAt.toLocaleDateString()}</p>
+                <p>Ended at: {loan.endedAt?.toLocaleDateString()}</p>
               </li>
             ))}
           </ul>
