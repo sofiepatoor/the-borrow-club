@@ -1,17 +1,19 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Neuton, Montserrat } from 'next/font/google';
 import '@/styles/global.scss';
 import Header from '@/components/ui/Header';
 import Footer from '@/components/ui/Footer';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+const neuton = Neuton({
+  variable: '--font-neuton',
   subsets: ['latin'],
+  weight: ['400', '700'],
 });
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+const montserrat = Montserrat({
+  variable: '--font-montserrat',
   subsets: ['latin'],
+  weight: ['400', '700'],
 });
 
 export const metadata: Metadata = {
@@ -26,7 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className={`${neuton.variable} ${montserrat.variable}`}>
         <Header />
         <main>{children}</main>
         <Footer />

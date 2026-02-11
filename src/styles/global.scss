@@ -33,6 +33,14 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family:
-    var(--font-geist-sans), var(--font-geist-mono), Arial, Helvetica,
-    ui-sans-serif, sans-serif;
+    var(--font-montserrat), Arial, Helvetica, ui-sans-serif, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-neuton), Georgia, "Times New Roman", Times, serif;
 }
