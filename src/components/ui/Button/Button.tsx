@@ -6,7 +6,7 @@ function Button({
   ...delegated
 }: React.ComponentPropsWithoutRef<'button'>) {
   return (
-    <button className={styles.wrapper} {...delegated}>
+    <button className={styles.button} {...delegated}>
       {children}
     </button>
   );

@@ -1,13 +1,20 @@
-.wrapper {
-  background-color: var(--foreground);
-  color: var(--background);
-  border: 1px solid var(--foreground);
+.button {
+  background-color: transparent;
+  color: var(--black);
+  border: 2px solid var(--black);
+  border-radius: var(--radius);
   cursor: pointer;
-  border-radius: 4px;
+  padding: 0.5em 1em;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease-out;
 
   &:hover,
   &:focus {
-    background-color: darkslategray;
-    border-color: darkslategray;
+    color: var(--white);
+    background-color: var(--black);
+    border-color: var(--black);
   }
 }
