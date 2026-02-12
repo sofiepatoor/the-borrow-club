@@ -2,10 +2,6 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 100%;
-  max-width: var(--content-width);
-  padding: 64px var(--viewport-padding);
-  margin: 0 auto;
 }
 
 .content {
