@@ -5,16 +5,24 @@ type SectionProps = {
   as?: 'section' | 'div';
   children: React.ReactNode;
   verticalPadding?: 'sm' | 'md' | 'lg' | 'xl';
+  className?: string;
 };
 
 function Section({
   as = 'section',
   children,
-  verticalPadding = 'md',
+  verticalPadding = 'sm',
+  className,
 }: SectionProps) {
   const As = as;
   return (
-    <As className={clsx(styles.section, styles[`py-${verticalPadding}`])}>
+    <As
+      className={clsx(
+        styles.section,
+        styles[`py-${verticalPadding}`],
+        className,
+      )}
+    >
       {children}
     </As>
   );

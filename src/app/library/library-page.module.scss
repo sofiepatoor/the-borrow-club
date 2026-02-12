@@ -1,27 +1,5 @@
-.wrapper {
+.page {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-}
-
-.content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto auto;
-  grid-template-areas:
-    "title title"
-    "library add-item";
-  width: 100%;
-}
-
-.pageTitle {
-  grid-area: title;
-}
-
-.librarySection {
-  grid-area: library;
-}
-
-.addItemSection {
-  grid-area: add-item;
 }

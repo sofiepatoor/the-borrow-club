@@ -1,12 +1,13 @@
 import { auth } from '@/auth';
 
+import Section from '@/components/ui/Section';
 import Container from '@/components/ui/Container';
 import Link from 'next/link';
 import { SignInButton } from '@/components/ui/Button/signInButton';
 import { SignOutButton } from '@/components/ui/Button/signOutButton';
 import FriendsList from '@/components/features/friends/FriendsList';
 
-import styles from './homepage.module.scss';
+// import styles from './homepage.module.scss';
 
 export default async function Home() {
   const session = await auth();
@@ -23,21 +24,23 @@ export default async function Home() {
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div>
       <Container>
         <h1>The Borrow Club</h1>
 
-        <section>
+        <Section>
           <p>Signed in as: {session.user?.email}</p>
           <SignOutButton />
+        </Section>
+        <Section>
           <h2>Users</h2>
           <FriendsList />
-        </section>
+        </Section>
 
-        <section>
+        <Section>
           <h2>My library</h2>
           <Link href="/library">View my library</Link>
-        </section>
+        </Section>
       </Container>
     </div>
   );
