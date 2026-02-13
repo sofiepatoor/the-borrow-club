@@ -21,6 +21,21 @@
   --font-body:
     var(--font-rubik, "sans-serif"), Arial, Helvetica, ui-sans-serif, sans-serif;
 
+  /* Gradients */
+  --stripes: linear-gradient(
+    to bottom,
+    var(--indigo),
+    var(--indigo) 20%,
+    var(--purple) 20%,
+    var(--purple) 40%,
+    var(--red) 40%,
+    var(--red) 60%,
+    var(--orange) 60%,
+    var(--orange) 80%,
+    var(--honey) 80%,
+    var(--honey) 100%
+  );
+
   /* Misc */
   --radius: 12px;
 
