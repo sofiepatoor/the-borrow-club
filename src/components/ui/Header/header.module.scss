@@ -4,4 +4,41 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  padding-block: var(--space-md);
+}
+
+.headerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.logoText {
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--black);
+}
+
+.nav {
+  display: flex;
+  align-items: baseline;
+  gap: 1em;
+}
+
+.navLink {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease-out;
+  text-decoration: none;
+  color: var(--black);
+  border-bottom: 2px solid transparent;
+
+  &:hover,
+  &:focus {
+    border-color: var(--black);
+  }
 }
