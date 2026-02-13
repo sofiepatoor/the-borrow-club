@@ -4,7 +4,7 @@ import styles from './header.module.scss';
 
 function Header() {
   return (
-    <header className={styles.wrapper}>
+    <header className={styles.header}>
       <Container>
         <p>The Borrow Club</p>
       </Container>

@@ -14,7 +14,7 @@ async function ItemCard({ item }: { item: ItemWithOwner }) {
   const isAvailable = item.isAvailable;
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.itemCard}>
       <p>
         <strong>{title}</strong>
       </p>

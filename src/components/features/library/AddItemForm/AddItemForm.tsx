@@ -14,7 +14,7 @@ async function AddItemForm() {
   }
 
   return (
-    <form action={createItem} className={styles.wrapper}>
+    <form action={createItem} className={styles.addItemForm}>
       <label htmlFor="title">Title</label>
       <input
         id="title"
