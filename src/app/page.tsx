@@ -26,7 +26,7 @@ export default async function Home() {
   return (
     <div>
       <Container>
-        <h1>The Borrow Club</h1>
+        <h1>Dashboard</h1>
 
         <Section>
           <p>Signed in as: {session.user?.email}</p>
