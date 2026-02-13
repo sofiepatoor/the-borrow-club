@@ -1,7 +1,26 @@
-.wrapper {
-  position: relative;
+.footer {
+  padding-top: var(--space-md);
+  padding-bottom: var(--space-sm);
+}
+
+.footerContent {
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
+}
+
+.footerLink {
+  font-size: 0.8rem;
+  font-weight: 600;
+  opacity: 0.5;
+  transition: opacity 0.15s ease-in-out;
+  color: var(--purple);
+  text-decoration: none;
+  transition: all 0.15s ease-out;
+
+  &:hover,
+  &:focus {
+    opacity: 1;
+  }
 }
