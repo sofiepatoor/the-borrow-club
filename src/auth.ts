@@ -5,12 +5,16 @@ import { PrismaAdapter } from '@auth/prisma-adapter';
 import { prisma } from '@/lib/prisma';
 import Resend from 'next-auth/providers/resend';
 
+const { callbacks: authConfigCallbacks, ...restAuthConfig } = authConfig;
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  ...restAuthConfig,
   adapter: PrismaAdapter(
     prisma as unknown as Parameters<typeof PrismaAdapter>[0],
   ),
   session: { strategy: 'jwt' },
   callbacks: {
+    ...authConfigCallbacks,
     jwt({ token, user }) {
       if (user) {
         token.id = user.id;
@@ -22,7 +26,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return session;
     },
   },
-  ...authConfig,
   providers: [
     ...(authConfig.providers ?? []),
     Resend({
