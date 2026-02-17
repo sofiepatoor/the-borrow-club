@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Container from '@/components/ui/Container';
+import UserDropdown from '../UserDropdown';
 
 import styles from './header.module.scss';
 
@@ -18,6 +19,7 @@ function Header() {
             <Link href="/library" className={styles.navLink}>
               My Library
             </Link>
+            <UserDropdown />
           </nav>
         </div>
       </Container>

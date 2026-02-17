@@ -38,3 +38,8 @@ export const getCurrentUserId = async () => {
   const session = await auth();
   return session?.user?.id ?? null;
 };
+
+export const getCurrentUser = async () => {
+  const session = await auth();
+  return session?.user ?? null;
+};

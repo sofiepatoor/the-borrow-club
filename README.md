@@ -45,6 +45,7 @@ A **web app** where people can list the **physical media they own** (books, DVDs
 - React 19
 - TypeScript
 - CSS Modules + SCSS
+- Radix Primitives
 
 ### Backend & Database
 
