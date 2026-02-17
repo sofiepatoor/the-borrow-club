@@ -42,6 +42,9 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-xs);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
   color: var(--black);
   text-decoration: none;
   padding: 0 var(--space-sm);

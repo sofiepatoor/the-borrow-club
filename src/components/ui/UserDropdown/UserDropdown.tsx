@@ -1,4 +1,5 @@
 import { getCurrentUser } from '@/auth';
+import { signOutAction } from '@/app/actions/auth';
 import Link from 'next/link';
 import { DropdownMenu } from 'radix-ui';
 import { ChevronDownIcon, ArrowRightIcon } from '@radix-ui/react-icons';
@@ -26,7 +27,14 @@ async function UserDropdown() {
               <ArrowRightIcon />
             </Link>
           </DropdownMenu.Item>
-          <DropdownMenu.Item className={styles.item}>Logout</DropdownMenu.Item>
+          <DropdownMenu.Item asChild>
+            <form action={signOutAction}>
+              <button type="submit" className={styles.item}>
+                Logout
+                <ArrowRightIcon />
+              </button>
+            </form>
+          </DropdownMenu.Item>
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>

@@ -1,16 +1,5 @@
-import { signOut } from '@/auth';
-import { redirect } from 'next/navigation';
+import { signOutAction } from '@/app/actions/auth';
 import Button from './Button';
-
-async function signOutAction() {
-  'use server';
-  try {
-    await signOut({ redirect: false });
-  } catch {
-    // If signOut fails (e.g. no session), still send user to sign-in
-  }
-  redirect('/api/auth/signin');
-}
 
 export function SignOutButton() {
   return (
