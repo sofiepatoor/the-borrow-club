@@ -30,6 +30,11 @@ A **web app** where people can list the **physical media they own** (books, DVDs
 
 ### Post-MVP
 
+- [ ] Homepage UI:
+  - [ ] recently added
+  - [ ] currently borrowing
+  - [ ] currently borrowed from you
+  - [ ] activity feed
 - [ ] Users can edit their profile
 - [ ] Users can view other users' profile pages
 - [ ] Item media types (e.g. books, DVDs, games) and more fields
