@@ -1,18 +1,29 @@
-import { auth } from '@/auth';
+import { getCurrentUser } from '@/auth';
 
-import Section from '@/components/ui/Section';
-import Container from '@/components/ui/Container';
+import { getVisibleItemsForUser } from './actions/items';
+import { getLoansForUser } from './actions/loans';
+import {
+  getReceivedLoanRequestsForUser,
+  getSentLoanRequestsForUser,
+} from './actions/loan-requests';
+
 import Link from 'next/link';
+import Container from '@/components/ui/Container';
 import { SignInButton } from '@/components/ui/Button/signInButton';
-import { SignOutButton } from '@/components/ui/Button/signOutButton';
-import FriendsList from '@/components/features/friends/FriendsList';
+import ItemsSlider from '@/components/ui/ItemsSlider';
+import LoansList, {
+  type LoanWithRelations,
+} from '@/components/features/loans/LoansList';
+import LoanRequestsList, {
+  type LoanRequestWithRelations,
+} from '@/components/features/loans/LoanRequestsList';
 
-// import styles from './homepage.module.scss';
+import styles from './homepage.module.scss';
 
 export default async function Home() {
-  const session = await auth();
+  const user = await getCurrentUser();
 
-  if (!session) {
+  if (!user) {
     return (
       <div>
         <Container>
@@ -23,24 +34,47 @@ export default async function Home() {
     );
   }
 
+  const recentlyAddedItems = await getVisibleItemsForUser(user.id, 6);
+  const loans = await getLoansForUser(user.id);
+  const borrowingItems = loans.filter((loan) => loan.ownerId === user.id);
+  const borrowedFromYouItems = loans.filter(
+    (loan) => loan.requesterId === user.id,
+  );
+  const receivedLoanRequests = await getReceivedLoanRequestsForUser(user.id);
+  const sentLoanRequests = await getSentLoanRequestsForUser(user.id);
+
   return (
     <div>
       <Container>
         <h1>Dashboard</h1>
 
-        <Section>
-          <p>Signed in as: {session.user?.email}</p>
-          <SignOutButton />
-        </Section>
-        <Section>
-          <h2>Users</h2>
-          <FriendsList />
-        </Section>
+        <div className={styles.grid}>
+          <div className={styles.recentlyAdded}>
+            <h2>Recently added</h2>
+            <Link href="/library">View all items</Link>
+            <ItemsSlider items={recentlyAddedItems} currentUserId={user.id} />
+          </div>
 
-        <Section>
-          <h2>My library</h2>
-          <Link href="/library">View my library</Link>
-        </Section>
+          <div className={styles.currentlyBorrowing}>
+            <h2>Currently borrowing</h2>
+            <LoansList loans={borrowingItems as LoanWithRelations[]} />
+
+            <h3>Requests</h3>
+            <LoanRequestsList
+              loanRequests={sentLoanRequests as LoanRequestWithRelations[]}
+            />
+          </div>
+
+          <div className={styles.currentlyBorrowedFromYou}>
+            <h2>Borrowed from you</h2>
+            <LoansList loans={borrowedFromYouItems as LoanWithRelations[]} />
+
+            <h3>Requests</h3>
+            <LoanRequestsList
+              loanRequests={receivedLoanRequests as LoanRequestWithRelations[]}
+            />
+          </div>
+        </div>
       </Container>
     </div>
   );

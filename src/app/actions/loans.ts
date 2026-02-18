@@ -21,14 +21,13 @@ export async function returnLoan(formData: FormData) {
   const loanId = formData.get('loanId') as string;
   const currentUserId = await getCurrentUserId();
 
-  console.log('returnLoan', { loanId, currentUserId });
   if (!currentUserId || !loanId) return;
 
   const loan = await prisma.loan.findUnique({
     where: { id: loanId },
     include: { item: true },
   });
-  console.log('loan', loan);
+
   if (!loan) return;
 
   await prisma.$transaction([

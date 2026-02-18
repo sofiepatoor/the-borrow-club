@@ -26,11 +26,15 @@ export async function getOwnedItemsForUser(userId: string) {
   });
 }
 
-export async function getVisibleItemsForUser(userId: string) {
+export async function getVisibleItemsForUser(
+  userId: string,
+  limit: number = 10,
+) {
   const friendIds = await getFriendIdsForUser(userId);
   return await prisma.item.findMany({
     where: { ownerId: { in: [userId, ...friendIds] } },
     orderBy: { id: 'desc' },
     include: { owner: true },
+    take: limit,
   });
 }

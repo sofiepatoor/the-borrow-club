@@ -1,1 +1,20 @@
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "recentItems recentItems"
+    "borrowing borrowedFromYou";
+  gap: var(--space-md);
+}
 
+.recentlyAdded {
+  grid-area: recentItems;
+}
+
+.currentlyBorrowing {
+  grid-area: borrowing;
+}
+
+.currentlyBorrowedFromYou {
+  grid-area: borrowedFromYou;
+}
