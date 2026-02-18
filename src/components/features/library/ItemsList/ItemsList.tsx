@@ -1,14 +1,15 @@
 import type { Item, User } from '@/generated/prisma/client';
-import ItemCard from '../ItemCard';
+import ItemCard from '@/components/ui/ItemCard';
 type ItemWithOwner = Item & { owner: User | null };
 
 import styles from './items-list.module.scss';
 
 type ItemsListProps = {
   items: ItemWithOwner[];
+  currentUserId: string;
 };
 
-function ItemsList({ items }: ItemsListProps) {
+function ItemsList({ items, currentUserId }: ItemsListProps) {
   if (items.length === 0) {
     return <p>No items found</p>;
   }
@@ -18,7 +19,7 @@ function ItemsList({ items }: ItemsListProps) {
       <ul className={styles.list}>
         {items.map((item) => (
           <li key={item.id}>
-            <ItemCard item={item} />
+            <ItemCard item={item} currentUserId={currentUserId} />
           </li>
         ))}
       </ul>
