@@ -16,7 +16,7 @@ const splideOptions = {
   perMove: 1,
 };
 
-import ItemCard from '@/components/features/library/ItemCard';
+import ItemCard from '@/components/ui/ItemCard';
 
 import styles from './items-slider.module.scss';
 

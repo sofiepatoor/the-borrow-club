@@ -4,7 +4,11 @@ type ItemWithOwner = Item & { owner: User | null };
 
 import styles from './items-list.module.scss';
 
-async function ItemsList({ items }: { items: ItemWithOwner[] }) {
+type ItemsListProps = {
+  items: ItemWithOwner[];
+};
+
+function ItemsList({ items }: ItemsListProps) {
   if (items.length === 0) {
     return <p>No items found</p>;
   }
