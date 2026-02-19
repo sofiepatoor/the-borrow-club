@@ -10,13 +10,12 @@ import styles from './user-dropdown.module.scss';
 
 async function UserDropdown() {
   const user = await getCurrentUser();
-  const userName = user?.name ?? user?.email ?? 'User';
 
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
         <button className={styles.trigger}>
-          {userName}
+          {user?.username}
           <ChevronDownIcon className={styles.triggerIcon} />
         </button>
       </DropdownMenu.Trigger>
@@ -24,7 +23,7 @@ async function UserDropdown() {
       <DropdownMenu.Portal>
         <DropdownMenu.Content className={styles.content} align="end">
           <DropdownMenu.Item className={styles.item} asChild>
-            <Link href="/">
+            <Link href={`/users/${user?.username}`}>
               View profile
               <ArrowRightIcon />
             </Link>

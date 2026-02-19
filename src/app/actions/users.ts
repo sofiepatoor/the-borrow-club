@@ -14,3 +14,9 @@ export async function getAllUsersExceptCurrent(currentUserId: string) {
     orderBy: { id: 'desc' },
   });
 }
+
+export async function getUserByUsername(username: string) {
+  return await prisma.user.findUnique({
+    where: { username },
+  });
+}
