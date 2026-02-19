@@ -7,7 +7,6 @@ import {
   getSentLoanRequestsForUser,
 } from './actions/loan-requests';
 
-import Link from 'next/link';
 import Container from '@/components/ui/Container';
 import { SignInButton } from '@/components/ui/Button/signInButton';
 import ItemsSlider from '@/components/ui/ItemsSlider';
@@ -19,6 +18,8 @@ import LoanRequestsList, {
 } from '@/components/features/loans/LoanRequestsList';
 
 import styles from './homepage.module.scss';
+import Card from '@/components/ui/Card';
+import Button from '@/components/ui/Button';
 
 export default async function Home() {
   const user = await getCurrentUser();
@@ -51,11 +52,12 @@ export default async function Home() {
         <div className={styles.grid}>
           <div className={styles.recentlyAdded}>
             <h2>Recently added</h2>
-            <Link href="/library">View all items</Link>
+            <Button href="/library">Add item</Button>
+            <Button href="/library">View all items</Button>
             <ItemsSlider items={recentlyAddedItems} currentUserId={user.id} />
           </div>
 
-          <div className={styles.currentlyBorrowing}>
+          <Card className={styles.currentlyBorrowing}>
             <h2>Currently borrowing</h2>
             <LoansList loans={borrowingItems as LoanWithRelations[]} />
 
@@ -63,9 +65,9 @@ export default async function Home() {
             <LoanRequestsList
               loanRequests={sentLoanRequests as LoanRequestWithRelations[]}
             />
-          </div>
+          </Card>
 
-          <div className={styles.currentlyBorrowedFromYou}>
+          <Card className={styles.currentlyBorrowedFromYou}>
             <h2>Borrowed from you</h2>
             <LoansList loans={borrowedFromYouItems as LoanWithRelations[]} />
 
@@ -73,7 +75,7 @@ export default async function Home() {
             <LoanRequestsList
               loanRequests={receivedLoanRequests as LoanRequestWithRelations[]}
             />
-          </div>
+          </Card>
         </div>
       </Container>
     </div>

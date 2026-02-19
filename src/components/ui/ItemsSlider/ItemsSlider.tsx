@@ -10,15 +10,16 @@ type ItemsSliderProps = {
   currentUserId: string;
 };
 
-const splideOptions = {
-  gap: '1rem',
-  perPage: 2,
-  perMove: 1,
-};
-
 import ItemCard from '@/components/ui/ItemCard';
 
 import styles from './items-slider.module.scss';
+
+const splideOptions = {
+  gap: '1rem',
+  perPage: 3,
+  perMove: 1,
+  pagination: false,
+};
 
 function ItemsSlider({ items = [], currentUserId }: ItemsSliderProps) {
   const list = items ?? [];
