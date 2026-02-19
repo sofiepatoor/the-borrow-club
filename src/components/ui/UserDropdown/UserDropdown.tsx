@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { DropdownMenu } from 'radix-ui';
 import { ChevronDownIcon, ArrowRightIcon } from '@radix-ui/react-icons';
 
+import { SignOutDropdownItem } from './SignOutDropdownItem';
+
 import styles from './user-dropdown.module.scss';
 
 async function UserDropdown() {
@@ -27,14 +29,7 @@ async function UserDropdown() {
               <ArrowRightIcon />
             </Link>
           </DropdownMenu.Item>
-          <DropdownMenu.Item asChild>
-            <form action={signOutAction}>
-              <button type="submit" className={styles.item}>
-                Logout
-                <ArrowRightIcon />
-              </button>
-            </form>
-          </DropdownMenu.Item>
+          <SignOutDropdownItem signOutAction={signOutAction} />
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>
