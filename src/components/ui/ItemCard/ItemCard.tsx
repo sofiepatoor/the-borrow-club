@@ -1,22 +1,21 @@
 'use client';
 
 import type { Item, User } from '@/generated/prisma/client';
-
-// import Button from '@/components/ui/Button';
+import Card from '@/components/ui/Card';
 
 type ItemCardProps = {
   item: Item & { owner: User | null };
   currentUserId: string;
 };
 
-import styles from './item-card.module.scss';
+// import styles from './item-card.module.scss';
 
 function ItemCard({ item, currentUserId }: ItemCardProps) {
   const { title, owner, isAvailable, createdAt } = item;
   const isOwner = owner?.id === currentUserId;
 
   return (
-    <div className={styles.itemCard}>
+    <Card>
       <p>
         <strong>{title}</strong>
       </p>
@@ -30,7 +29,7 @@ function ItemCard({ item, currentUserId }: ItemCardProps) {
         </form>
       )} */}
       {!isAvailable && <p>Unavailable</p>}
-    </div>
+    </Card>
   );
 }
 
