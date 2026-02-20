@@ -1,24 +1,25 @@
-import { auth } from '@/auth';
 import {
-  createFriendship,
-  deleteFriendship,
   type FriendshipWithFriend,
   getFriendshipsForUser,
-  acceptFriendship,
 } from '@/app/actions/friendships';
 import { getAllUsersExceptCurrent } from '@/app/actions/users';
 import { type User } from '@/generated/prisma/client';
 import { FriendshipStatus } from '@/generated/prisma/enums';
 
-import styles from './friends-list.module.scss';
-import Button from '@/components/ui/Button';
+import AddFriendButton from '@/components/features/friends/AddFriendButton';
+import RemoveFriendButton from '@/components/features/friends/RemoveFriendButton';
+import CancelFriendRequestButton from '@/components/features/friends/CancelFriendRequestButton';
+import AcceptFriendRequestButton from '@/components/features/friends/AcceptFriendRequestButton';
+import RejectFriendRequestButton from '@/components/features/friends/RejectFriendRequestButton';
+import Link from 'next/link';
 
-async function FriendsList() {
-  const session = await auth();
-  const currentUserId = session?.user?.id ?? '';
+import styles from './friends-list.module.scss';
+
+async function FriendsList({ userId }: { userId: string }) {
+  const currentUserId = userId;
 
   const otherUsers = await getAllUsersExceptCurrent(currentUserId);
-  const allFriendships = await getFriendshipsForUser(currentUserId);
+  const allFriendships = await getFriendshipsForUser(userId);
 
   const sentFriendRequests = allFriendships.filter(
     (f: FriendshipWithFriend) =>
@@ -50,12 +51,9 @@ async function FriendsList() {
           const hasRelationship = userIdsWithRelationship.has(user.id ?? '');
           return (
             <li key={user.id}>
-              <div>{user.email}</div>
-              {!hasRelationship && (
-                <form action={createFriendship}>
-                  <input type="hidden" name="friendId" value={user.id} />
-                  <Button type="submit">Add friend</Button>
-                </form>
+              <Link href={`/users/${user.username}`}>{user.username}</Link>
+              {!hasRelationship && user.id && (
+                <AddFriendButton friendId={user.id} />
               )}
             </li>
           );
@@ -69,23 +67,11 @@ async function FriendsList() {
         {receivedFriendRequests.map((friendship: FriendshipWithFriend) => {
           return (
             <li key={friendship.id}>
-              {friendship.user.email}
-              <form action={acceptFriendship}>
-                <input
-                  type="hidden"
-                  name="friendshipId"
-                  value={friendship.id}
-                />
-                <Button type="submit">Accept</Button>
-              </form>
-              <form action={deleteFriendship}>
-                <input
-                  type="hidden"
-                  name="friendshipId"
-                  value={friendship.id}
-                />
-                <Button type="submit">Reject</Button>
-              </form>
+              <Link href={`/users/${friendship.user.username}`}>
+                {friendship.user.username}
+              </Link>
+              <AcceptFriendRequestButton friendshipId={friendship.id} />
+              <RejectFriendRequestButton friendshipId={friendship.id} />
             </li>
           );
         })}
@@ -98,15 +84,10 @@ async function FriendsList() {
         {sentFriendRequests.map((friendship: FriendshipWithFriend) => {
           return (
             <li key={friendship.id}>
-              {friendship.friend.email}
-              <form action={deleteFriendship}>
-                <input
-                  type="hidden"
-                  name="friendshipId"
-                  value={friendship.id}
-                />
-                <Button type="submit">Cancel request</Button>
-              </form>
+              <Link href={`/users/${friendship.friend.username}`}>
+                {friendship.friend.username}
+              </Link>
+              <CancelFriendRequestButton friendshipId={friendship.id} />
             </li>
           );
         })}
@@ -120,18 +101,15 @@ async function FriendsList() {
           return (
             <li key={friendship.id}>
               {friendship.user.id === currentUserId ? (
-                <span>{friendship.friend.email}</span>
+                <Link href={`/users/${friendship.friend.username}`}>
+                  {friendship.friend.username}
+                </Link>
               ) : (
-                <span>{friendship.user.email}</span>
+                <Link href={`/users/${friendship.user.username}`}>
+                  {friendship.user.username}
+                </Link>
               )}
-              <form action={deleteFriendship}>
-                <input
-                  type="hidden"
-                  name="friendshipId"
-                  value={friendship.id}
-                />
-                <Button type="submit">Remove friend</Button>
-              </form>
+              <RemoveFriendButton friendshipId={friendship.id} />
             </li>
           );
         })}
