@@ -1,0 +1,28 @@
+.userCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid var(--black);
+  background-color: var(--white);
+  padding: var(--space-xs);
+  transition: background-color 0.15s ease-out;
+
+  &:hover,
+  &:focus-within {
+    background-color: rgb(from var(--indigo) r g b / 15%);
+  }
+}
+
+.username {
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+
+.viewProfileLink {
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+}
