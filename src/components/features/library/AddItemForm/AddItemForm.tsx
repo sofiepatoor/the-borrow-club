@@ -1,4 +1,5 @@
 import { auth } from '@/auth';
+import Form from 'next/form';
 import { createItem } from '@/app/actions/items';
 
 import Button from '@/components/ui/Button';
@@ -14,7 +15,7 @@ async function AddItemForm() {
   }
 
   return (
-    <form action={createItem} className={styles.addItemForm}>
+    <Form action={createItem} className={styles.addItemForm}>
       <label htmlFor="title">Title</label>
       <input
         id="title"
@@ -25,7 +26,7 @@ async function AddItemForm() {
       />
       <input type="hidden" name="ownerId" value={userId} />
       <Button type="submit">Add item</Button>
-    </form>
+    </Form>
   );
 }
 

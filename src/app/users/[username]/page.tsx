@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation';
 
 import Image from 'next/image';
 import Container from '@/components/ui/Container';
-import Button from '@/components/ui/Button';
+import EditProfileButton from '@/components/features/users/EditProfileButton';
 import FriendsList from '@/components/features/friends/FriendsList';
 import AddFriendButton from '@/components/features/friends/AddFriendButton';
 import RemoveFriendButton from '@/components/features/friends/RemoveFriendButton';
@@ -47,11 +47,14 @@ export default async function ProfilePage({
               className={styles.profileImg}
             />
 
+            <p>
+              <strong>{user.name ? `${user.name}` : user.username}</strong>
+            </p>
             <p>{user.email}</p>
             <p>Member since: {user.createdAt.toLocaleDateString()}</p>
 
             <div className={styles.profileActions}>
-              {isOwnProfile && <Button>Edit profile</Button>}
+              {isOwnProfile && <EditProfileButton user={user} />}
               {!isOwnProfile &&
                 (isFriend ? (
                   <RemoveFriendButton friendshipId={isFriend.id} />
