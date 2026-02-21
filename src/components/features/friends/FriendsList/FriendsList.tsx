@@ -7,10 +7,10 @@ import { type User } from '@/generated/prisma/client';
 import { FriendshipStatus } from '@/generated/prisma/enums';
 
 import AddFriendButton from '@/components/features/friends/AddFriendButton';
-import RemoveFriendButton from '@/components/features/friends/RemoveFriendButton';
 import CancelFriendRequestButton from '@/components/features/friends/CancelFriendRequestButton';
 import AcceptFriendRequestButton from '@/components/features/friends/AcceptFriendRequestButton';
 import RejectFriendRequestButton from '@/components/features/friends/RejectFriendRequestButton';
+import UserCard from '@/components/ui/UserCard/UserCard';
 import Link from 'next/link';
 
 import styles from './friends-list.module.scss';
@@ -96,20 +96,17 @@ async function FriendsList({ userId }: { userId: string }) {
       <p>
         <strong>My friends</strong>
       </p>
-      <ul>
+      <ul className="unstyled">
         {friends.map((friendship: FriendshipWithFriend) => {
           return (
             <li key={friendship.id}>
-              {friendship.user.id === currentUserId ? (
-                <Link href={`/users/${friendship.friend.username}`}>
-                  {friendship.friend.username}
-                </Link>
-              ) : (
-                <Link href={`/users/${friendship.user.username}`}>
-                  {friendship.user.username}
-                </Link>
-              )}
-              <RemoveFriendButton friendshipId={friendship.id} />
+              <UserCard
+                user={
+                  friendship.user.id === currentUserId
+                    ? friendship.friend
+                    : friendship.user
+                }
+              />
             </li>
           );
         })}
