@@ -41,3 +41,18 @@ export async function updateProfile(formData: FormData) {
 
   revalidatePath(`/users/${currentUser.username}`);
 }
+
+export async function updateProfileImage(
+  userId: string,
+  imagePublicId: string,
+) {
+  const currentUser = await getCurrentUser();
+  if (userId !== currentUser?.id || !currentUser) return;
+
+  await prisma.user.update({
+    where: { id: userId },
+    data: { image: imagePublicId },
+  });
+
+  revalidatePath(`/users/${currentUser.username}`);
+}

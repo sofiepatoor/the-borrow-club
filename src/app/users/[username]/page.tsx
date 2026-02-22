@@ -3,13 +3,14 @@ import { getUserByUsername } from '@/app/actions/users';
 import { findFriendshipBetweenUsers } from '@/app/actions/friendships';
 import { notFound } from 'next/navigation';
 
-import Image from 'next/image';
 import Container from '@/components/ui/Container';
+import ProfileImage from '@/components/features/users/ProfileImage';
 import EditProfileButton from '@/components/features/users/EditProfileButton';
 import FriendsList from '@/components/features/friends/FriendsList';
 import AddFriendButton from '@/components/features/friends/AddFriendButton';
 import RemoveFriendButton from '@/components/features/friends/RemoveFriendButton';
 import Card from '@/components/ui/Card';
+import ProfileImageUpload from '@/components/features/users/ProfileImageUpload';
 
 import styles from './profile.module.scss';
 
@@ -39,13 +40,7 @@ export default async function ProfilePage({
 
         <div className={styles.contentWrapper}>
           <div className={styles.sidebar}>
-            <Image
-              src="/next.svg"
-              width={500}
-              height={500}
-              alt={`Picture of ${user.username}`}
-              className={styles.profileImg}
-            />
+            <ProfileImage user={user} className={styles.profileImg} />
 
             <p>
               <strong>{user.name ? `${user.name}` : user.username}</strong>
@@ -54,7 +49,12 @@ export default async function ProfilePage({
             <p>Member since: {user.createdAt.toLocaleDateString()}</p>
 
             <div className={styles.profileActions}>
-              {isOwnProfile && <EditProfileButton user={user} />}
+              {isOwnProfile && (
+                <>
+                  <ProfileImageUpload user={user} />
+                  <EditProfileButton user={user} />
+                </>
+              )}
               {!isOwnProfile &&
                 (isFriend ? (
                   <RemoveFriendButton friendshipId={isFriend.id} />
