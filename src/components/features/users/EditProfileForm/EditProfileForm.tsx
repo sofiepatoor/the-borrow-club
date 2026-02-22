@@ -3,6 +3,7 @@ import { updateProfile } from '@/app/actions/users';
 
 import Form from 'next/form';
 import Button from '@/components/ui/Button';
+import { Input, TextArea } from '@/components/ui/Input';
 
 // import styles from './edit-profile-form.module.scss';
 
@@ -15,11 +16,16 @@ export default function EditProfileForm({ user }: EditProfileFormProps) {
     <Form action={updateProfile}>
       <input type="hidden" name="userId" value={user.id} />
 
-      <label htmlFor="name">Name</label>
-      <input id="name" name="name" type="text" defaultValue={user.name || ''} />
-      <label htmlFor="bio">Bio</label>
-      <textarea
+      <Input
+        id="name"
+        label="Name"
+        name="name"
+        type="text"
+        defaultValue={user.name || ''}
+      />
+      <TextArea
         id="bio"
+        label="Bio"
         name="bio"
         defaultValue={user.bio || ''}
         rows={3}
