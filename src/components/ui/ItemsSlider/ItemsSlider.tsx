@@ -3,16 +3,15 @@
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import '@splidejs/react-splide/css';
 
-import type { Item, User } from '@/generated/prisma/client';
-type ItemWithOwner = Item & { owner: User | null };
-type ItemsSliderProps = {
-  items?: ItemWithOwner[] | null;
-  currentUserId: string;
-};
-
+import type { ItemWithOwnerAndDetails } from '@/types/items';
 import ItemCard from '@/components/ui/ItemCard';
 
 import styles from './items-slider.module.scss';
+
+type ItemsSliderProps = {
+  items?: ItemWithOwnerAndDetails[] | null;
+  currentUserId: string;
+};
 
 const splideOptions = {
   gap: '1rem',

@@ -5,6 +5,14 @@ import { prisma } from '@/lib/prisma';
 import { getCurrentUserId } from '@/auth';
 import { LoanRequestStatus } from '@/generated/prisma/client';
 
+const itemInclude = {
+  owner: true,
+  bookDetails: true,
+  movieDetails: true,
+  videoGameDetails: true,
+  boardGameDetails: true,
+} as const;
+
 export async function getSentLoanRequestsForUser(userId: string) {
   return await prisma.loanRequest.findMany({
     where: {
@@ -12,7 +20,7 @@ export async function getSentLoanRequestsForUser(userId: string) {
       status: LoanRequestStatus.PENDING,
     },
     include: {
-      item: true,
+      item: { include: itemInclude },
       owner: true,
     },
   });
@@ -25,7 +33,7 @@ export async function getReceivedLoanRequestsForUser(userId: string) {
       status: LoanRequestStatus.PENDING,
     },
     include: {
-      item: true,
+      item: { include: itemInclude },
       requester: true,
     },
   });

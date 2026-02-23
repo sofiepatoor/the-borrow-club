@@ -1,11 +1,10 @@
-import type { Item, User } from '@/generated/prisma/client';
+import type { ItemWithOwnerAndDetails } from '@/types/items';
 import ItemCard from '@/components/ui/ItemCard';
-type ItemWithOwner = Item & { owner: User | null };
 
 import styles from './items-list.module.scss';
 
 type ItemsListProps = {
-  items: ItemWithOwner[];
+  items: ItemWithOwnerAndDetails[];
   currentUserId: string;
 };
 

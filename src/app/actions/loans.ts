@@ -4,13 +4,21 @@ import { getCurrentUserId } from '@/auth';
 import { prisma } from '@/lib/prisma';
 import { revalidatePath } from 'next/cache';
 
+const itemInclude = {
+  owner: true,
+  bookDetails: true,
+  movieDetails: true,
+  videoGameDetails: true,
+  boardGameDetails: true,
+} as const;
+
 export async function getLoansForUser(userId: string) {
   return await prisma.loan.findMany({
     where: {
       OR: [{ requesterId: userId }, { ownerId: userId }],
     },
     include: {
-      item: true,
+      item: { include: itemInclude },
       requester: true,
       owner: true,
     },

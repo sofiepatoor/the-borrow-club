@@ -1,7 +1,8 @@
-import type { Item, User, Loan } from '@/generated/prisma/client';
+import type { User, Loan } from '@/generated/prisma/client';
+import type { ItemWithOwnerAndDetails } from '@/types/items';
 
 export type LoanWithRelations = Loan & {
-  item: Item & { owner: User | null };
+  item: ItemWithOwnerAndDetails;
   requester: User;
   owner: User;
 };
