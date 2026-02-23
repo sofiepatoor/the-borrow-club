@@ -12,6 +12,13 @@ model Item {
   title   String
   ownerId String
   owner   User    @relation(fields: [ownerId], references: [id])
+  description String?
+
+  itemType ItemType @default(OTHER)
+  bookDetails BookItemDetails?
+  movieDetails MovieItemDetails?
+  videoGameDetails VideoGameItemDetails?
+  boardGameDetails BoardGameItemDetails?
 
   isAvailable  Boolean @default(true)
   loans        Loan[]
@@ -19,6 +26,122 @@ model Item {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum ItemType {
+  BOOK
+  MOVIE
+  VIDEO_GAME
+  BOARD_GAME
+  OTHER
+}
+
+model BookItemDetails {
+  id        Int @id @default(autoincrement())
+  itemId    Int @unique
+  item      Item @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  author    String
+  releaseYear Int?
+  language  String?
+  fiction   Boolean @default(true)
+  genre     BookGenre[]
+}
+
+enum BookGenre {
+  FANTASY
+  SCIENCE_FICTION
+  THRILLER
+  HORROR
+  DRAMA
+  MYSTERY
+  ROMANCE
+  HISTORICAL
+  POETRY
+  CLASSIC
+  KIDS
+  OTHER
+}
+
+model MovieItemDetails {
+  id        Int @id @default(autoincrement())
+  itemId    Int @unique
+  item      Item @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  director  String?
+  releaseYear Int?
+  genre     MovieGenre[]
+}
+
+enum MovieGenre {
+  ACTION
+  ADVENTURE
+  ANIMATION
+  COMEDY
+  THRILLER
+  DOCUMENTARY
+  DRAMA
+  FAMILY
+  FANTASY
+  HISTORY
+  HORROR
+  MUSIC
+  MYSTERY
+  ROMANCE
+  SCIENCE_FICTION
+  OTHER
+}
+
+model VideoGameItemDetails {
+  id        Int @id @default(autoincrement())
+  itemId    Int @unique
+  item      Item @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  platform  VideoGamePlatform?
+  genre     VideoGameGenre[]
+}
+
+enum VideoGamePlatform {
+  PC
+  PLAYSTATION_4
+  PLAYSTATION_5
+  XBOX
+  NINTENDO_SWITCH
+  NINTENDO_WII
+  NINTENDO_DS
+  OTHER
+}
+
+enum VideoGameGenre {
+  ACTION
+  ADVENTURE
+  PUZZLE
+  STRATEGY
+  RPG
+  SIMULATION
+  SPORTS
+  PLATFORMER
+  SHOOTER
+  RACING
+  OTHER
+}
+
+model BoardGameItemDetails {
+  id        Int @id @default(autoincrement())
+  itemId    Int @unique
+  item      Item @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  minPlayers Int?
+  maxPlayers Int?
+  cooperative Boolean @default(false)
+  genre     BoardGameGenre[]
+}
+
+enum BoardGameGenre {
+  FAMILY
+  PARTY
+  STRATEGY
+  DECK_BUILDING
+  CARD
+  PUZZLE
+  TRIVIA
+  OTHER
 }
 
 model LoanRequest {
