@@ -20,7 +20,16 @@ function ItemCard({ item, currentUserId }: ItemCardProps) {
         <strong>{title}</strong>
       </p>
       <p>Owned by: {isOwner ? 'You' : owner?.email}</p>
-      <p>Added on: {createdAt.toLocaleDateString()}</p>
+      <p>Type: {ITEM_TYPE_LABELS[item.itemType]}</p>
+      <p>
+        Added on:{' '}
+        {createdAt.toLocaleDateString('en-GB', {
+          day: 'numeric',
+          month: 'numeric',
+          year: 'numeric',
+          timeZone: 'CET',
+        })}
+      </p>
       {/* {!isOwner && isAvailable && (
         <form action={createLoanRequest}>
           <input type="hidden" name="itemId" value={item.id} />
