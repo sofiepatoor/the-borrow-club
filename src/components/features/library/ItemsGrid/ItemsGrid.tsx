@@ -1,14 +1,14 @@
 import type { ItemWithOwnerAndDetails } from '@/types/items';
 import ItemCard from '@/components/ui/ItemCard';
 
-import styles from './items-list.module.scss';
+import styles from './items-grid.module.scss';
 
-type ItemsListProps = {
+type ItemsGridProps = {
   items: ItemWithOwnerAndDetails[];
   currentUserId: string;
 };
 
-function ItemsList({ items, currentUserId }: ItemsListProps) {
+function ItemsGrid({ items, currentUserId }: ItemsGridProps) {
   if (items.length === 0) {
     return <p>No items found</p>;
   }
@@ -26,4 +26,4 @@ function ItemsList({ items, currentUserId }: ItemsListProps) {
   );
 }
 
-export default ItemsList;
+export default ItemsGrid;

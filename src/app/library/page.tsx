@@ -11,7 +11,7 @@ import { getLoansForUser, returnLoan } from '../actions/loans';
 
 import Link from 'next/link';
 import AddItemForm from '@/components/features/library/AddItemForm';
-import ItemsList from '@/components/features/library/ItemsList';
+import ItemsGrid from '@/components/features/library/ItemsGrid';
 import Container from '@/components/ui/Container';
 import Button from '@/components/ui/Button';
 
@@ -39,7 +39,7 @@ export default async function LibraryPage() {
 
         <Section className={styles.librarySection}>
           <h2>My items</h2>
-          <ItemsList items={items} currentUserId={userId} />
+          <ItemsGrid items={items} currentUserId={userId} />
         </Section>
 
         <Section className={styles.addItemSection}>
