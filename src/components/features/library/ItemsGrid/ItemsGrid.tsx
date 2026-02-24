@@ -15,7 +15,7 @@ function ItemsGrid({ items, currentUserId }: ItemsGridProps) {
 
   return (
     <div className={styles.wrapper}>
-      <ul className={styles.list}>
+      <ul className={styles.grid}>
         {items.map((item) => (
           <li key={item.id}>
             <ItemCard item={item} currentUserId={currentUserId} />

@@ -47,7 +47,7 @@ export default async function Home() {
   return (
     <div>
       <Container>
-        <h1>Dashboard</h1>
+        <h1 className="vh">Dashboard</h1>
 
         <div className={styles.grid}>
           <div className={styles.recentlyAdded}>

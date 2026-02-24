@@ -1,13 +1,21 @@
 import type { Metadata } from 'next';
-import { Rubik } from 'next/font/google';
+import { Geist } from 'next/font/google';
+import TiffanyLaurence from 'next/font/local';
 import '@/styles/global.scss';
 import Header from '@/components/ui/Header';
 import Footer from '@/components/ui/Footer';
 
-const rubik = Rubik({
-  variable: '--font-rubik',
+const geist = Geist({
+  variable: '--font-geist',
   subsets: ['latin'],
-  weight: ['400', '600', '700'],
+  weight: ['400', '500', '600', '700'],
+});
+
+const tiffanyLaurence = TiffanyLaurence({
+  variable: '--font-tiffany-laurence',
+  src: '../styles/fonts/tiffany-laurence.woff2',
+  weight: '400',
+  style: 'normal',
 });
 
 export const metadata: Metadata = {
@@ -21,7 +29,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${rubik.variable}`}>
+    <html lang="en" className={`${geist.variable} ${tiffanyLaurence.variable}`}>
       <body>
         <Header />
         <main>{children}</main>

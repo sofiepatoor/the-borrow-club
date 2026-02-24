@@ -4,5 +4,6 @@
   align-items: flex-start;
   padding: 16px 20px;
   border: 2px solid var(--black);
-  background-color: white;
+  background-color: var(--white);
+  // background-color: color-mix(in srgb, var(--red) 10%, white);
 }

@@ -2,13 +2,13 @@
   /* Colors */
   --black: #211917;
   --white: #ffffff;
-  --cream: #f8f4ed;
+  --cream: #f6f5f2;
   --honey: #eeae3e;
   --orange: #e1763a;
   --red: #d93931;
   --purple: #843388;
   --indigo: #58358a;
-  --color-background: var(--cream);
+  --color-background: var(--white);
   --color-text: var(--black);
 
   /* Spacing */
@@ -20,7 +20,8 @@
 
   /* Fonts */
   --font-body:
-    var(--font-rubik, "sans-serif"), Arial, Helvetica, ui-sans-serif, sans-serif;
+    var(--font-geist, "sans-serif"), Arial, Helvetica, ui-sans-serif, sans-serif;
+  --font-display: var(--font-tiffany-laurence, "serif"), Georgia, Times, serif;
 
   /* Gradients */
   --stripes: linear-gradient(
@@ -38,7 +39,7 @@
   );
 
   /* Misc */
-  --radius: 12px;
+  --radius: 10px;
 
   /* Layout */
   --content-width: 72rem;

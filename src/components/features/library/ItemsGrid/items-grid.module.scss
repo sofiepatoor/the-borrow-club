@@ -4,10 +4,15 @@
   align-items: flex-start;
 }
 
-.list {
-  display: flex;
-  flex-direction: column;
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 12px;
   list-style: none;
   padding: 0;
+  width: 100%;
+
+  li > div:last-child {
+    height: 100%;
+  }
 }
