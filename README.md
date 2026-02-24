@@ -30,17 +30,18 @@ A **web app** where people can list the **physical media they own** (books, DVDs
 
 ### Post-MVP
 
-- [ ] Homepage UI:
+- [x] Extend homepage UI:
   - [x] recently added
   - [x] currently borrowing
   - [x] currently borrowed from you
   - [x] requests
 - [x] Users can view other users' profile pages
-- [ ] Users can edit their profile
-- [ ] Item media types (e.g. books, DVDs, games) and more fields
+- [x] Users can edit their profile and upload a profile picture
+- [ ] Item media types (e.g. books, movies, games) and type-specific fields
 - [ ] Option to fetch metadata of items
-- [ ] User groups and item visibility restriction
+- [ ] Improve general design & UI
 - [ ] Search and filter the library
+- [ ] User groups and item visibility restriction
 
 ## Tech Stack
 
@@ -59,6 +60,7 @@ A **web app** where people can list the **physical media they own** (books, DVDs
 - Next.js Server Actions
 - NextAuth.js (authentication)
 - Resend (email provider for magic links)
+- Cloudinary (image uploads)
 
 ### Other
 
