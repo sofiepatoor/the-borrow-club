@@ -7,7 +7,7 @@ export type BaseInputProps = {
 };
 
 export type TextInputProps = BaseInputProps & {
-  type?: 'text' | 'email' | 'password' | 'search' | 'url';
+  type?: 'text' | 'email' | 'password' | 'search' | 'url' | 'number';
   placeholder?: string;
   defaultValue?: string;
 };

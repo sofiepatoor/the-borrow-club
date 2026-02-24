@@ -1,10 +1,10 @@
 'use client';
 
-import type { Item, User } from '@/generated/prisma/client';
+import type { ItemWithOwnerAndDetails } from '@/types/items';
 import Card from '@/components/ui/Card';
 
 type ItemCardProps = {
-  item: Item & { owner: User | null };
+  item: ItemWithOwnerAndDetails;
   currentUserId: string;
 };
 

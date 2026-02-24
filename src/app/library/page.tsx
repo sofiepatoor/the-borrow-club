@@ -44,7 +44,7 @@ export default async function LibraryPage() {
 
         <Section className={styles.addItemSection}>
           <h2>Add item</h2>
-          <AddItemForm />
+          <AddItemForm userId={userId} />
         </Section>
 
         <Section>
