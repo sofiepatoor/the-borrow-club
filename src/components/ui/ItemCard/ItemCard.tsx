@@ -2,6 +2,7 @@
 
 import type { ItemWithOwnerAndDetails } from '@/types/items';
 import Card from '@/components/ui/Card';
+import { ITEM_TYPE_LABELS } from '@/lib/item-types';
 
 type ItemCardProps = {
   item: ItemWithOwnerAndDetails;
