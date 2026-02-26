@@ -21,8 +21,7 @@ export function Input({
         name={name}
         type={type}
         placeholder={placeholder}
-        value={value}
-        defaultValue={defaultValue}
+        {...(value !== undefined ? { value } : { defaultValue })}
         onChange={onChange}
         className={styles.input}
       />

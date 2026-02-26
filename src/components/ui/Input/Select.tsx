@@ -20,13 +20,12 @@ export function Select({
       <select
         id={fieldId}
         name={name}
-        placeholder={placeholder}
         multiple={multiple}
-        value={value}
-        defaultValue={defaultValue}
+        {...(value !== undefined ? { value } : { defaultValue })}
         onChange={onChange}
         className={styles.select}
       >
+        <option value="">{placeholder}</option>
         {children}
       </select>
     </InputWrapper>

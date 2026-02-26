@@ -20,8 +20,7 @@ export function TextArea({
         id={fieldId}
         name={name}
         placeholder={placeholder}
-        defaultValue={defaultValue}
-        value={value}
+        {...(value !== undefined ? { value } : { defaultValue })}
         onChange={onChange}
         rows={rows}
         className={styles.textarea}
