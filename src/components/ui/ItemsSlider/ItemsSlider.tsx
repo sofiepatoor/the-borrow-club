@@ -18,6 +18,10 @@ const splideOptions = {
   perPage: 3,
   perMove: 1,
   pagination: false,
+  classes: {
+    arrows: `splide__arrows ${styles.sliderArrows}`,
+    arrow: `splide__arrow ${styles.sliderArrow}`,
+  },
 };
 
 function ItemsSlider({ items = [], currentUserId }: ItemsSliderProps) {

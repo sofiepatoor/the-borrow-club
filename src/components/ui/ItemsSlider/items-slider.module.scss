@@ -1,1 +1,24 @@
+.sliderArrows {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-xs);
+}
 
+.sliderArrow {
+  // override default styling
+  position: static;
+  transform: none;
+  opacity: 1;
+
+  // custom styling
+  background-color: var(--indigo);
+  border-radius: var(--radius);
+
+  svg {
+    fill: var(--white);
+    width: 1em;
+    height: 1em;
+  }
+}
