@@ -10,7 +10,9 @@ type InputWrapperProps = {
 export function InputWrapper({ label, htmlFor, children }: InputWrapperProps) {
   return (
     <div className={styles.inputWrapper}>
-      <label htmlFor={htmlFor}>{label}</label>
+      <label htmlFor={htmlFor} className={styles.label}>
+        {label}
+      </label>
       {children}
     </div>
   );

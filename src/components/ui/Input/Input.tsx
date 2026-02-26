@@ -10,6 +10,8 @@ export function Input({
   type = 'text',
   placeholder,
   defaultValue,
+  value,
+  onChange,
 }: TextInputProps) {
   const fieldId = id ?? name;
   return (
@@ -19,7 +21,9 @@ export function Input({
         name={name}
         type={type}
         placeholder={placeholder}
+        value={value}
         defaultValue={defaultValue}
+        onChange={onChange}
         className={styles.input}
       />
     </InputWrapper>

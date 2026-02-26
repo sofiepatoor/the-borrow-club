@@ -5,8 +5,19 @@
   margin-bottom: var(--space-sm);
 }
 
+.label {
+  font-size: 1rem;
+  line-height: 1;
+}
+
 .input,
-.textarea {
-  border: 2px solid var(--black);
+.textarea,
+.select {
+  border: 1px solid var(--black);
   padding: var(--space-xs);
+
+  &:hover,
+  &:focus {
+    outline-color: var(--indigo);
+  }
 }

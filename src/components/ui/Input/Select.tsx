@@ -1,9 +1,9 @@
 import { InputWrapper } from './InputWrapper';
-import type { TextAreaProps } from './types';
+import type { SelectProps } from './types';
 
 import styles from './input.module.scss';
 
-export function TextArea({
+export function Select({
   id,
   label,
   name,
@@ -11,21 +11,24 @@ export function TextArea({
   defaultValue,
   value,
   onChange,
-  rows,
-}: TextAreaProps) {
+  children,
+  multiple = false,
+}: SelectProps) {
   const fieldId = id ?? name;
   return (
     <InputWrapper label={label} htmlFor={fieldId}>
-      <textarea
+      <select
         id={fieldId}
         name={name}
         placeholder={placeholder}
-        defaultValue={defaultValue}
+        multiple={multiple}
         value={value}
+        defaultValue={defaultValue}
         onChange={onChange}
-        rows={rows}
-        className={styles.textarea}
-      />
+        className={styles.select}
+      >
+        {children}
+      </select>
     </InputWrapper>
   );
 }

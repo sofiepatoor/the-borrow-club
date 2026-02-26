@@ -10,8 +10,8 @@ import {
 } from '@/lib/item-types';
 import { createItem, type CreateItemResult } from '@/app/actions/items';
 import Button from '@/components/ui/Button';
+import { Input, Select, TextArea } from '@/components/ui/Input';
 import styles from './add-item-form.module.scss';
-import { Input, TextArea } from '@/components/ui/Input';
 
 function typeSpecificField(
   field: ItemTypeField,
@@ -83,6 +83,8 @@ function typeSpecificField(
 }
 
 export default function AddItemForm({ userId }: { userId: string }) {
+  const [title, setTitle] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
   const [itemType, setItemType] = useState<ItemType>('OTHER');
   const [state, formAction] = useActionState<CreateItemResult | null, FormData>(
     async (_prev, formData) => createItem(formData),
@@ -110,8 +112,10 @@ export default function AddItemForm({ userId }: { userId: string }) {
         name="title"
         label="Title"
         type="text"
-        required
         placeholder="Item title"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        required
       />
 
       <TextArea
@@ -120,12 +124,14 @@ export default function AddItemForm({ userId }: { userId: string }) {
         label="Description"
         rows={2}
         placeholder="Optional description"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
       />
 
-      <label htmlFor="itemType">Type</label>
-      <select
+      <Select
         id="itemType"
         name="itemType"
+        label="Type"
         value={itemType}
         onChange={(e) => setItemType(e.target.value as ItemType)}
         required
@@ -135,7 +141,7 @@ export default function AddItemForm({ userId }: { userId: string }) {
             {opt.label}
           </option>
         ))}
-      </select>
+      </Select>
 
       {typeFields.length > 0 && (
         <fieldset className={styles.typeFields}>
