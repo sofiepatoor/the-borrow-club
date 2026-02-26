@@ -6,7 +6,7 @@ import { Cross2Icon } from '@radix-ui/react-icons';
 import Button from '@/components/ui/Button';
 import EditProfileForm from '../EditProfileForm';
 
-import styles from './edit-profile.module.scss';
+import styles from '@/styles/modal.module.scss';
 
 type EditProfileButtonProps = {
   user: User;
@@ -33,7 +33,7 @@ export default function EditProfileButton({
           </Dialog.Description>
           <EditProfileForm user={user} />
           <Dialog.Close asChild>
-            <Button aria-label="Close">
+            <Button aria-label="Close" className={styles.closeButton}>
               <Cross2Icon />
             </Button>
           </Dialog.Close>

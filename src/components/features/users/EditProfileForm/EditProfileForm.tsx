@@ -5,8 +5,6 @@ import Form from 'next/form';
 import Button from '@/components/ui/Button';
 import { Input, TextArea } from '@/components/ui/Input';
 
-// import styles from './edit-profile-form.module.scss';
-
 type EditProfileFormProps = {
   user: User;
 };
