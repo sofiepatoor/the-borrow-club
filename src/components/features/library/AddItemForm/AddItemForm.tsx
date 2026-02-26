@@ -11,6 +11,8 @@ import {
 import { createItem, type CreateItemResult } from '@/app/actions/items';
 import Button from '@/components/ui/Button';
 import { Input, Select, TextArea } from '@/components/ui/Input';
+import SearchMetadataButton from '@/components/features/library/SearchMetadataButton';
+
 import styles from './add-item-form.module.scss';
 
 function typeSpecificField(
@@ -153,6 +155,19 @@ export default function AddItemForm({ userId }: { userId: string }) {
           ))}
         </fieldset>
       )}
+
+      {itemType === 'BOOK' && (
+        <SearchMetadataButton itemType="BOOK">
+          Search for book details
+        </SearchMetadataButton>
+      )}
+
+      {itemType === 'MOVIE' && (
+        <SearchMetadataButton itemType="MOVIE">
+          Search for movie details
+        </SearchMetadataButton>
+      )}
+
       <Button type="submit">Add item</Button>
     </Form>
   );
