@@ -1,6 +1,8 @@
 import { InputWrapper } from './InputWrapper';
 import type { TextAreaProps } from './types';
 
+import styles from './input.module.scss';
+
 export function TextArea({
   id,
   label,
@@ -18,6 +20,7 @@ export function TextArea({
         placeholder={placeholder}
         defaultValue={defaultValue}
         rows={rows}
+        className={styles.textarea}
       />
     </InputWrapper>
   );

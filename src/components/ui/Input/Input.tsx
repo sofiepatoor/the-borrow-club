@@ -1,6 +1,8 @@
 import { InputWrapper } from './InputWrapper';
 import type { TextInputProps } from './types';
 
+import styles from './input.module.scss';
+
 export function Input({
   id,
   label,
@@ -18,6 +20,7 @@ export function Input({
         type={type}
         placeholder={placeholder}
         defaultValue={defaultValue}
+        className={styles.input}
       />
     </InputWrapper>
   );

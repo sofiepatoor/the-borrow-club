@@ -4,3 +4,9 @@
   gap: var(--space-xs);
   margin-bottom: var(--space-sm);
 }
+
+.input,
+.textarea {
+  border: 2px solid var(--black);
+  padding: var(--space-xs);
+}
