@@ -196,13 +196,33 @@ export default function AddItemForm({ userId }: { userId: string }) {
       )}
 
       {itemType === 'BOOK' && (
-        <SearchMetadataButton itemType="BOOK">
+        <SearchMetadataButton
+          itemType="BOOK"
+          onSelectMetadata={(data) => {
+            const rest = { ...data };
+            delete (rest as Record<string, unknown>).id;
+            setFormValues((prev) => ({
+              itemType: (prev.itemType as ItemType) ?? 'OTHER',
+              ...rest,
+            }));
+          }}
+        >
           Search for book details
         </SearchMetadataButton>
       )}
 
       {itemType === 'MOVIE' && (
-        <SearchMetadataButton itemType="MOVIE">
+        <SearchMetadataButton
+          itemType="MOVIE"
+          onSelectMetadata={(data) => {
+            const rest = { ...data };
+            delete (rest as Record<string, unknown>).id;
+            setFormValues((prev) => ({
+              itemType: (prev.itemType as ItemType) ?? 'OTHER',
+              ...rest,
+            }));
+          }}
+        >
           Search for movie details
         </SearchMetadataButton>
       )}

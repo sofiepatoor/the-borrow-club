@@ -37,8 +37,8 @@ A **web app** where people can list the **physical media they own** (books, DVDs
   - [x] requests
 - [x] Users can view other users' profile pages
 - [x] Users can edit their profile and upload a profile picture
-- [ ] Item media types (e.g. books, movies, games) and type-specific fields
-- [ ] Option to fetch metadata of items
+- [x] Item media types (e.g. books, movies, games) and type-specific fields
+- [x] Option to fetch metadata of items
 - [ ] Improve general design & UI
 - [ ] Search and filter the library
 - [ ] User groups and item visibility restriction

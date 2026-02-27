@@ -17,6 +17,7 @@ import type { BookFormData, MovieFormData } from '@/lib/metadata-mapping';
 
 type SearchMetadataButtonProps = {
   itemType: ItemType;
+  onSelectMetadata: (data: BookFormData | MovieFormData) => void;
   className?: string;
   children: React.ReactNode;
 };
@@ -25,6 +26,7 @@ import styles from '@/styles/modal.module.scss';
 
 export default function SearchMetadataButton({
   itemType,
+  onSelectMetadata,
   children,
 }: SearchMetadataButtonProps) {
   const [searchResults, setSearchResults] = useState<
@@ -42,8 +44,9 @@ export default function SearchMetadataButton({
     }
   };
 
-  const handleAddSearchResult = (result: BookFormData | MovieFormData) => {
-    console.log(result);
+  const handleSelectResult = (result: BookFormData | MovieFormData) => {
+    onSelectMetadata(result);
+    setSearchResults([]);
     setIsModalOpen(false);
   };
 
@@ -78,18 +81,19 @@ export default function SearchMetadataButton({
 
           {searchResults.length > 0 && (
             <ul>
-              {searchResults.map((result) => (
-                <li key={result.id}>
+              {searchResults.map((result, index) => (
+                <li key={result.id ?? `${result.title}-${index}`}>
                   <h3>{result.title}</h3>
-                  <p>{result.description}</p>
-                  <p>{result.releaseYear}</p>
+                  {result.description && <p>{result.description}</p>}
+                  {result.releaseYear && <p>{result.releaseYear}</p>}
+                  {'author' in result && result.author && (
+                    <p>{result.author}</p>
+                  )}
                   <Button
                     type="button"
-                    onClick={() => {
-                      handleAddSearchResult(result);
-                    }}
+                    onClick={() => handleSelectResult(result)}
                   >
-                    Add
+                    Use this
                   </Button>
                 </li>
               ))}
