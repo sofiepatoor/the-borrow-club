@@ -5,7 +5,7 @@ export type BaseInputProps = {
   required?: boolean;
   disabled?: boolean;
   defaultValue?: string;
-  value?: string;
+  value?: string | string[];
   placeholder?: string;
 };
 

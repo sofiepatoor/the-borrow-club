@@ -15,12 +15,19 @@ import SearchMetadataButton from '@/components/features/library/SearchMetadataBu
 
 import styles from './add-item-form.module.scss';
 
+export type FormValues = Record<string, string | string[]>;
+
 function typeSpecificField(
   field: ItemTypeField,
   keyPrefix: string,
+  formValues: FormValues,
+  setFormValues: React.Dispatch<React.SetStateAction<FormValues>>,
 ): React.ReactNode {
   const id = `${keyPrefix}-${field.key}`;
   const name = field.key;
+  const value = formValues[name];
+  const setValue = (next: string | string[]) =>
+    setFormValues((prev) => ({ ...prev, [name]: next }));
 
   switch (field.type) {
     case 'text':
@@ -32,6 +39,8 @@ function typeSpecificField(
           type="text"
           required={field.required}
           placeholder={field.label}
+          value={(value as string) ?? ''}
+          onChange={(e) => setValue(e.target.value)}
         />
       );
     case 'number':
@@ -43,55 +52,76 @@ function typeSpecificField(
           type="number"
           required={field.required}
           placeholder={field.label}
+          value={(value as string) ?? ''}
+          onChange={(e) => setValue(e.target.value)}
         />
       );
     case 'checkbox':
       return (
         <label className={styles.checkboxLabel}>
-          <input type="checkbox" name={name} value="on" />
+          <input
+            type="checkbox"
+            name={name}
+            value="on"
+            checked={value === 'on'}
+            onChange={(e) => setValue(e.target.checked ? 'on' : '')}
+          />
           {field.label}
         </label>
       );
     case 'select':
       return (
-        <>
-          <label htmlFor={id}>{field.label}</label>
-          <select id={id} name={name}>
-            <option value="">—</option>
-            {field.options?.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
-        </>
+        <Select
+          id={id}
+          name={name}
+          label={field.label}
+          value={value as string}
+          onChange={(e) => setValue(e.target.value)}
+        >
+          {field.options?.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
+          ))}
+        </Select>
       );
-    case 'multiselect':
+    case 'multiselect': {
+      const selected = Array.isArray(value) ? value : [];
       return (
-        <>
-          <label htmlFor={id}>{field.label}</label>
-          <select id={id} name={name} multiple className={styles.multiselect}>
-            {field.options?.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
-        </>
+        <Select
+          id={id}
+          name={name}
+          label={field.label}
+          multiple={true}
+          value={selected}
+          onChange={(e) => {
+            const options = e.target.selectedOptions;
+            setValue(Array.from(options).map((opt) => opt.value));
+          }}
+        >
+          {field.options?.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
+          ))}
+        </Select>
       );
+    }
     default:
       return null;
   }
 }
 
 export default function AddItemForm({ userId }: { userId: string }) {
-  const [title, setTitle] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
-  const [itemType, setItemType] = useState<ItemType>('OTHER');
+  const [formValues, setFormValues] = useState<FormValues>({
+    itemType: 'OTHER',
+  });
   const [state, formAction] = useActionState<CreateItemResult | null, FormData>(
     async (_prev, formData) => createItem(formData),
     null,
   );
+
+  const itemType = (formValues.itemType as ItemType) ?? 'OTHER';
 
   if (!userId) {
     return null;
@@ -115,8 +145,10 @@ export default function AddItemForm({ userId }: { userId: string }) {
         label="Title"
         type="text"
         placeholder="Item title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
+        value={(formValues.title as string) ?? ''}
+        onChange={(e) =>
+          setFormValues((prev) => ({ ...prev, title: e.target.value }))
+        }
         required
       />
 
@@ -126,8 +158,10 @@ export default function AddItemForm({ userId }: { userId: string }) {
         label="Description"
         rows={2}
         placeholder="Optional description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
+        value={(formValues.description as string) ?? ''}
+        onChange={(e) =>
+          setFormValues((prev) => ({ ...prev, description: e.target.value }))
+        }
       />
 
       <Select
@@ -135,7 +169,12 @@ export default function AddItemForm({ userId }: { userId: string }) {
         name="itemType"
         label="Type"
         value={itemType}
-        onChange={(e) => setItemType(e.target.value as ItemType)}
+        onChange={(e) =>
+          setFormValues((prev) => ({
+            ...prev,
+            itemType: e.target.value as ItemType,
+          }))
+        }
         required
       >
         {ITEM_TYPE_OPTIONS.map((opt) => (
@@ -150,7 +189,7 @@ export default function AddItemForm({ userId }: { userId: string }) {
           <legend>Details</legend>
           {typeFields.map((field) => (
             <div key={field.key} className={styles.fieldRow}>
-              {typeSpecificField(field, 'add-item')}
+              {typeSpecificField(field, 'add-item', formValues, setFormValues)}
             </div>
           ))}
         </fieldset>
