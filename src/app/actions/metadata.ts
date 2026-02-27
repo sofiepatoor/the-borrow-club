@@ -1,15 +1,19 @@
 'use server';
 
-import type {
-  OpenLibrarySearchItem,
-  TmdbSearchItem,
+import {
+  mapOpenLibraryToForm,
+  mapTmdbToForm,
+  type BookFormData,
+  type MovieFormData,
+  type OpenLibrarySearchItem,
+  type TmdbSearchItem,
 } from '@/lib/metadata-mapping';
 
 const tmdbAccessToken = process.env.TMDB_ACCESS_TOKEN;
 
 export async function searchBookMetadata(
   query: string,
-): Promise<OpenLibrarySearchItem[]> {
+): Promise<BookFormData[]> {
   const encodedQuery = encodeURIComponent(query);
   const url = `https://openlibrary.org/search.json?q=${encodedQuery}&limit=4`;
   const headers = new Headers({
@@ -38,12 +42,13 @@ export async function searchBookMetadata(
     });
   }
 
-  return searchResults;
+  const mappedResults = searchResults.map(mapOpenLibraryToForm);
+  return mappedResults;
 }
 
 export async function searchMovieMetadata(
   query: string,
-): Promise<TmdbSearchItem[]> {
+): Promise<MovieFormData[]> {
   const encodedQuery = encodeURIComponent(query);
   const url = `https://api.themoviedb.org/3/search/movie?query=${encodedQuery}&page=1`;
   const headers = new Headers({
@@ -72,5 +77,6 @@ export async function searchMovieMetadata(
     });
   }
 
-  return searchResults;
+  const mappedResults = searchResults.map(mapTmdbToForm);
+  return mappedResults;
 }
