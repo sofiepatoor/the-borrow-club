@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   searchBookMetadata,
@@ -12,7 +12,8 @@ import { Dialog } from 'radix-ui';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import Button from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
-import Form from 'next/form';
+
+import type { BookFormData, MovieFormData } from '@/lib/metadata-mapping';
 
 type SearchMetadataButtonProps = {
   itemType: ItemType;
@@ -26,16 +27,28 @@ export default function SearchMetadataButton({
   itemType,
   children,
 }: SearchMetadataButtonProps) {
-  const handleSearch = async (formData: FormData) => {
-    const query = formData.get('query') as string;
+  const [searchResults, setSearchResults] = useState<
+    BookFormData[] | MovieFormData[]
+  >([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleSearch = async (query: string) => {
     if (itemType === 'BOOK') {
-      await searchBookMetadata(query);
+      const results = await searchBookMetadata(query);
+      setSearchResults(results);
     } else if (itemType === 'MOVIE') {
-      await searchMovieMetadata(query);
+      const results = await searchMovieMetadata(query);
+      setSearchResults(results);
     }
   };
+
+  const handleAddSearchResult = (result: BookFormData | MovieFormData) => {
+    console.log(result);
+    setIsModalOpen(false);
+  };
+
   return (
-    <Dialog.Root>
+    <Dialog.Root open={isModalOpen} onOpenChange={setIsModalOpen}>
       <Dialog.Trigger asChild>
         <Button type="button">{children}</Button>
       </Dialog.Trigger>
@@ -45,7 +58,14 @@ export default function SearchMetadataButton({
           <Dialog.Title className={styles.modalTitle}>
             Search for {itemType}
           </Dialog.Title>
-          <Form action={handleSearch}>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              const formData = new FormData(e.currentTarget);
+              const query = formData.get('query') as string;
+              handleSearch(query);
+            }}
+          >
             <Input
               label="Search"
               type="search"
@@ -54,7 +74,27 @@ export default function SearchMetadataButton({
               placeholder="Search by title"
             />
             <Button type="submit">Search</Button>
-          </Form>
+          </form>
+
+          {searchResults.length > 0 && (
+            <ul>
+              {searchResults.map((result) => (
+                <li key={result.id}>
+                  <h3>{result.title}</h3>
+                  <p>{result.description}</p>
+                  <p>{result.releaseYear}</p>
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      handleAddSearchResult(result);
+                    }}
+                  >
+                    Add
+                  </Button>
+                </li>
+              ))}
+            </ul>
+          )}
 
           <Dialog.Close asChild>
             <Button aria-label="Close" className={styles.closeButton}>

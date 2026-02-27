@@ -12,6 +12,7 @@ export type TmdbSearchItem = {
 };
 
 export type BookFormData = {
+  id?: string;
   title: string;
   description?: string;
   author: string;
@@ -20,6 +21,7 @@ export type BookFormData = {
 };
 
 export type MovieFormData = {
+  id?: string;
   title: string;
   description?: string;
   director?: string;
@@ -30,6 +32,7 @@ export function mapOpenLibraryToForm(
   item: OpenLibrarySearchItem,
 ): BookFormData {
   return {
+    id: crypto.randomUUID(),
     title: item.title ?? '',
     description: item.description?.trim() || undefined,
     author: item.author ?? '',
@@ -40,6 +43,7 @@ export function mapOpenLibraryToForm(
 
 export function mapTmdbToForm(item: TmdbSearchItem): MovieFormData {
   return {
+    id: crypto.randomUUID(),
     title: item.title ?? '',
     description: item.description?.trim() || undefined,
     director: undefined,
