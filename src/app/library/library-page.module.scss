@@ -3,3 +3,10 @@
   flex-direction: column;
   align-items: flex-start;
 }
+
+.mainContent {
+  display: grid;
+  grid-template-columns: 5fr 2fr;
+  gap: var(--space-md);
+  width: 100%;
+}

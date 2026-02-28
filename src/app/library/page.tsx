@@ -5,9 +5,10 @@ import Link from 'next/link';
 import AddItemForm from '@/components/features/library/AddItemForm';
 import ItemsGrid from '@/components/features/library/ItemsGrid';
 import Container from '@/components/ui/Container';
+import Section from '@/components/ui/Section';
+import Card from '@/components/ui/Card';
 
 import styles from './library-page.module.scss';
-import Section from '@/components/ui/Section';
 
 export default async function LibraryPage() {
   const userId = await getCurrentUserId();
@@ -23,14 +24,17 @@ export default async function LibraryPage() {
           <Link href="/">Back to home</Link>
         </p>
 
-        <Section className={styles.librarySection}>
-          <h2>My items</h2>
-          <ItemsGrid items={items} currentUserId={userId} />
-        </Section>
-
-        <Section className={styles.addItemSection}>
-          <h2>Add item</h2>
-          <AddItemForm userId={userId} />
+        <Section className={styles.mainContent}>
+          <div className={styles.itemsOverview}>
+            <h2>My items</h2>
+            <ItemsGrid items={items} currentUserId={userId} />
+          </div>
+          <div className={styles.addItemSection}>
+            <h2>Add item</h2>
+            <Card>
+              <AddItemForm userId={userId} />
+            </Card>
+          </div>
         </Section>
       </Container>
     </div>
