@@ -1,6 +1,7 @@
 import { getCurrentUser } from '@/auth';
 import { getUserByUsername } from '@/app/actions/users';
 import { findFriendshipBetweenUsers } from '@/app/actions/friendships';
+import { getLoansForUser } from '@/app/actions/loans';
 import { notFound } from 'next/navigation';
 
 import Container from '@/components/ui/Container';
@@ -11,6 +12,9 @@ import AddFriendButton from '@/components/features/friends/AddFriendButton';
 import RemoveFriendButton from '@/components/features/friends/RemoveFriendButton';
 import Card from '@/components/ui/Card';
 import ProfileImageUpload from '@/components/features/users/ProfileImageUpload';
+import LoansList, {
+  type LoanWithRelations,
+} from '@/components/features/loans/LoansList';
 
 import styles from './profile.module.scss';
 
@@ -32,6 +36,8 @@ export default async function ProfilePage({
 
   const isOwnProfile = user.id === currentUser.id;
   const isFriend = await findFriendshipBetweenUsers(user.id, currentUser.id);
+  const loans = await getLoansForUser(user.id);
+  const completedLoans = loans.filter((loan) => loan.endedAt);
 
   return (
     <div>
@@ -77,6 +83,11 @@ export default async function ProfilePage({
             <Card className={styles.friends}>
               <h2>Friends</h2>
               <FriendsList userId={user.id} />
+            </Card>
+
+            <Card>
+              <h2>Borrow history</h2>
+              <LoansList loans={completedLoans as LoanWithRelations[]} />
             </Card>
           </div>
         </div>
