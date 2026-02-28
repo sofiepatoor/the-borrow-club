@@ -52,7 +52,6 @@ export default async function Home() {
         <div className={styles.grid}>
           <div className={styles.recentlyAdded}>
             <h2>Recently added</h2>
-            <Button href="/library">Add item</Button>
             <Button href="/library">View all items</Button>
             <ItemsSlider items={recentlyAddedItems} currentUserId={user.id} />
           </div>
