@@ -25,7 +25,11 @@ export function Select({
         onChange={onChange}
         className={styles.select}
       >
-        <option value="">{placeholder}</option>
+        {placeholder && (
+          <option value="" disabled>
+            {placeholder}
+          </option>
+        )}
         {children}
       </select>
     </InputWrapper>
