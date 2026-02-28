@@ -10,7 +10,7 @@ import {
 } from '@/lib/item-types';
 import { createItem, type CreateItemResult } from '@/app/actions/items';
 import Button from '@/components/ui/Button';
-import { Input, Select, TextArea } from '@/components/ui/Input';
+import { Input, Select, TextArea, Fieldset } from '@/components/ui/Input';
 import SearchMetadataButton from '@/components/features/library/SearchMetadataButton';
 
 import styles from './add-item-form.module.scss';
@@ -185,14 +185,13 @@ export default function AddItemForm({ userId }: { userId: string }) {
       </Select>
 
       {typeFields.length > 0 && (
-        <fieldset className={styles.typeFields}>
-          <legend>Details</legend>
+        <Fieldset legend="Details" className={styles.typeFields}>
           {typeFields.map((field) => (
             <div key={field.key} className={styles.fieldRow}>
               {typeSpecificField(field, 'add-item', formValues, setFormValues)}
             </div>
           ))}
-        </fieldset>
+        </Fieldset>
       )}
 
       {itemType === 'BOOK' && (
