@@ -15,12 +15,23 @@ type ItemsSliderProps = {
 
 const splideOptions = {
   gap: '1rem',
-  perPage: 3,
+  perPage: 4,
   perMove: 1,
   pagination: false,
   classes: {
     arrows: `splide__arrows ${styles.sliderArrows}`,
     arrow: `splide__arrow ${styles.sliderArrow}`,
+  },
+  breakpoints: {
+    1024: {
+      perPage: 3,
+    },
+    768: {
+      perPage: 2,
+    },
+    480: {
+      perPage: 1,
+    },
   },
 };
 
@@ -31,7 +42,7 @@ function ItemsSlider({ items = [], currentUserId }: ItemsSliderProps) {
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.sliderWrapper}>
       <Splide options={splideOptions}>
         {list.map((item) => (
           <SplideSlide key={item.id}>
