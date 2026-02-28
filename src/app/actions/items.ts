@@ -17,6 +17,7 @@ import {
   VideoGameGenre,
   BoardGameGenre,
 } from '@/generated/prisma/enums';
+import { getCurrentUserId } from '@/auth';
 
 const VALID_ITEM_TYPES = new Set(Object.values(ItemTypeEnum));
 
@@ -147,6 +148,24 @@ export async function createItem(
   revalidatePath('/');
   revalidatePath('/library');
   return {};
+}
+
+export async function updateItemImage(itemId: number, imagePublicId: string) {
+  const userId = await getCurrentUserId();
+  if (!userId) return;
+
+  const item = await prisma.item.findUnique({
+    where: { id: itemId },
+    include: { owner: true },
+  });
+  if (!item || item.ownerId !== userId) return;
+
+  await prisma.item.update({
+    where: { id: itemId },
+    data: { image: imagePublicId },
+  });
+
+  revalidatePath(`/library/${itemId}`);
 }
 
 export async function getOwnedItemsForUser(userId: string) {

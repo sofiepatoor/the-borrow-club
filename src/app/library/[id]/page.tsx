@@ -1,6 +1,7 @@
 import { getCurrentUserId } from '@/auth';
 import type { ItemWithOwnerAndDetails } from '@/types/items';
 import { getItemByIdForUser } from '@/app/actions/items';
+import { getLoansForItem } from '@/app/actions/loans';
 import { ITEM_TYPE_LABELS } from '@/lib/item-types';
 
 import Container from '@/components/ui/Container';
@@ -8,10 +9,11 @@ import { notFound } from 'next/navigation';
 import Card from '@/components/ui/Card';
 import Link from 'next/link';
 import { ArrowLeftIcon } from '@radix-ui/react-icons';
+import Button from '@/components/ui/Button';
+import ItemImage from '@/components/features/library/ItemImage';
+import ItemImageUpload from '@/components/features/library/ItemImageUpload';
 
 import styles from './item-page.module.scss';
-import { getLoansForItem } from '@/app/actions/loans';
-import Button from '@/components/ui/Button';
 
 export default async function ItemPage({
   params,
@@ -46,8 +48,7 @@ export default async function ItemPage({
 
         <div className={styles.contentWrapper}>
           <div className={styles.sidebar}>
-            {/* image */}
-
+            <ItemImage item={item} className={styles.itemImg} />
             <p>
               Owned by: <strong>{item.owner?.email}</strong>
             </p>
@@ -65,7 +66,7 @@ export default async function ItemPage({
             <div className={styles.itemActions}>
               {isOwnItem ? (
                 <>
-                  <Button>Update item image</Button>
+                  <ItemImageUpload item={item} />
                   <Button>Edit item details</Button>
                 </>
               ) : (

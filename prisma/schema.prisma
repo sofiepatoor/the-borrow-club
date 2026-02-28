@@ -13,6 +13,7 @@ model Item {
   ownerId String
   owner   User    @relation(fields: [ownerId], references: [id])
   description String?
+  image       String?
 
   itemType ItemType @default(OTHER)
   bookDetails BookItemDetails?
