@@ -181,3 +181,17 @@ export async function getVisibleItemsForUser(
     take: limit,
   });
 }
+
+export async function getItemByIdForUser(id: number, userId: string) {
+  const friendIds = await getFriendIdsForUser(userId);
+  return await prisma.item.findUnique({
+    where: { id, ownerId: { in: [userId, ...friendIds] } },
+    include: {
+      owner: true,
+      bookDetails: true,
+      movieDetails: true,
+      videoGameDetails: true,
+      boardGameDetails: true,
+    },
+  });
+}

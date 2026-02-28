@@ -3,6 +3,7 @@
 import type { ItemWithOwnerAndDetails } from '@/types/items';
 import Card from '@/components/ui/Card';
 import { ITEM_TYPE_LABELS } from '@/lib/item-types';
+import Link from 'next/link';
 
 type ItemCardProps = {
   item: ItemWithOwnerAndDetails;
@@ -39,6 +40,7 @@ function ItemCard({ item, currentUserId }: ItemCardProps) {
         </form>
       )} */}
       {!isAvailable && <p>Unavailable</p>}
+      <Link href={`/library/${item.id}`}>View item</Link>
     </Card>
   );
 }
