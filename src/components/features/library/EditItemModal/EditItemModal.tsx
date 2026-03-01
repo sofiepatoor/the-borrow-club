@@ -9,23 +9,21 @@ import EditItemForm from '@/components/features/library/EditItemForm';
 
 import styles from '@/styles/modal.module.scss';
 
-type EditItemButtonProps = {
+type EditItemModalProps = {
   userId: string;
   item: ItemWithOwnerAndDetails;
-  className?: string;
+  children: React.ReactNode;
 };
-export default function EditItemButton({
+export default function EditItemModal({
   userId,
   item,
-  className,
-}: EditItemButtonProps) {
+  children,
+}: EditItemModalProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <Dialog.Root open={isModalOpen} onOpenChange={setIsModalOpen}>
-      <Dialog.Trigger asChild>
-        <Button className={className}>Edit item</Button>
-      </Dialog.Trigger>
+      <Dialog.Trigger asChild>{children}</Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className={styles.overlay} />
         <Dialog.Content className={styles.modalContent}>

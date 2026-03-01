@@ -12,7 +12,7 @@ import { ArrowLeftIcon } from '@radix-ui/react-icons';
 import Button from '@/components/ui/Button';
 import ItemImage from '@/components/features/library/ItemImage';
 import ItemImageUpload from '@/components/features/library/ItemImageUpload';
-import EditItemButton from '@/components/features/library/EditItemButton';
+import EditItemModal from '@/components/features/library/EditItemModal';
 
 import styles from './item-page.module.scss';
 
@@ -68,7 +68,9 @@ export default async function ItemPage({
               {isOwnItem ? (
                 <>
                   <ItemImageUpload item={item} />
-                  <EditItemButton userId={userId} item={item} />
+                  <EditItemModal userId={userId} item={item}>
+                    <Button>Edit item</Button>
+                  </EditItemModal>
                 </>
               ) : (
                 <Button>Ask to borrow</Button>

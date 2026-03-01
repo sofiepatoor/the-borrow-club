@@ -8,20 +8,18 @@ import EditProfileForm from '../EditProfileForm';
 
 import styles from '@/styles/modal.module.scss';
 
-type EditProfileButtonProps = {
+type EditProfileModalProps = {
   user: User;
-  className?: string;
+  children: React.ReactNode;
 };
 
-export default function EditProfileButton({
+export default function EditProfileModal({
   user,
-  className,
-}: EditProfileButtonProps) {
+  children,
+}: EditProfileModalProps) {
   return (
     <Dialog.Root>
-      <Dialog.Trigger asChild>
-        <Button className={className}>Edit profile</Button>
-      </Dialog.Trigger>
+      <Dialog.Trigger asChild>{children}</Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className={styles.overlay} />
         <Dialog.Content className={styles.modalContent}>

@@ -6,7 +6,7 @@ import { notFound } from 'next/navigation';
 
 import Container from '@/components/ui/Container';
 import ProfileImage from '@/components/features/users/ProfileImage';
-import EditProfileButton from '@/components/features/users/EditProfileButton';
+import EditProfileModal from '@/components/features/users/EditProfileModal';
 import FriendsList from '@/components/features/friends/FriendsList';
 import AddFriendButton from '@/components/features/friends/AddFriendButton';
 import RemoveFriendButton from '@/components/features/friends/RemoveFriendButton';
@@ -15,6 +15,7 @@ import ProfileImageUpload from '@/components/features/users/ProfileImageUpload';
 import LoansList, {
   type LoanWithRelations,
 } from '@/components/features/loans/LoansList';
+import Button from '@/components/ui/Button';
 
 import styles from './profile.module.scss';
 
@@ -58,7 +59,9 @@ export default async function ProfilePage({
               {isOwnProfile && (
                 <>
                   <ProfileImageUpload user={user} />
-                  <EditProfileButton user={user} />
+                  <EditProfileModal user={user}>
+                    <Button>Edit profile</Button>
+                  </EditProfileModal>
                 </>
               )}
               {!isOwnProfile &&
