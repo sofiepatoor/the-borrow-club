@@ -113,9 +113,7 @@ function typeSpecificField(
 }
 
 export default function AddItemForm({ userId }: { userId: string }) {
-  const [formValues, setFormValues] = useState<FormValues>({
-    itemType: 'OTHER',
-  });
+  const [formValues, setFormValues] = useState<FormValues>({});
   const [state, formAction] = useActionState<CreateItemResult | null, FormData>(
     async (_prev, formData) => createItem(formData),
     null,
@@ -123,18 +121,17 @@ export default function AddItemForm({ userId }: { userId: string }) {
 
   useEffect(() => {
     if (state && !state.error) {
-      const id = setTimeout(() => setFormValues({ itemType: 'OTHER' }), 0);
+      const id = setTimeout(() => setFormValues({}), 0);
       return () => clearTimeout(id);
     }
   }, [state]);
 
-  const itemType = (formValues.itemType as ItemType) ?? 'OTHER';
+  const itemType = (formValues.itemType as ItemType) || undefined;
+  const typeFields = itemType ? (FIELDS_BY_ITEM_TYPE[itemType] ?? []) : [];
 
   if (!userId) {
     return null;
   }
-
-  const typeFields = FIELDS_BY_ITEM_TYPE[itemType];
 
   return (
     <Form action={formAction} className={styles.addItemForm}>
@@ -175,7 +172,7 @@ export default function AddItemForm({ userId }: { userId: string }) {
         id="itemType"
         name="itemType"
         label="Type"
-        value={''}
+        value={formValues.itemType ?? ''}
         placeholder="Select type"
         onChange={(e) =>
           setFormValues((prev) => ({
@@ -209,7 +206,8 @@ export default function AddItemForm({ userId }: { userId: string }) {
             const rest = { ...data };
             delete (rest as Record<string, unknown>).id;
             setFormValues((prev) => ({
-              itemType: (prev.itemType as ItemType) ?? 'OTHER',
+              ...prev,
+              itemType: 'BOOK',
               ...rest,
             }));
           }}
@@ -225,7 +223,8 @@ export default function AddItemForm({ userId }: { userId: string }) {
             const rest = { ...data };
             delete (rest as Record<string, unknown>).id;
             setFormValues((prev) => ({
-              itemType: (prev.itemType as ItemType) ?? 'OTHER',
+              ...prev,
+              itemType: 'MOVIE',
               ...rest,
             }));
           }}
