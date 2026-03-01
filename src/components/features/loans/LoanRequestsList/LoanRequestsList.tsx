@@ -17,7 +17,7 @@ function LoanRequestsList({
   onItemPage = false,
 }: LoanRequestsListProps) {
   if (loanRequests.length === 0) {
-    return <p>No items found</p>;
+    return <p>Nothing here</p>;
   }
 
   return (

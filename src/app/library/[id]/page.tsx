@@ -104,28 +104,30 @@ export default async function ItemPage({
             <Card>
               <h2>Details</h2>
               {item.description && (
-                <div className="rte">
-                  <p>{item.description}</p>
-                </div>
+                <Section>
+                  <div className="rte">
+                    <p>{item.description}</p>
+                  </div>
+                </Section>
               )}
 
               {item.itemType === 'BOOK' && (
-                <>
+                <Section>
                   <h2>Book Details</h2>
                   <p>Author: {item.bookDetails?.author}</p>
                   <p>Release year: {item.bookDetails?.releaseYear}</p>
                   <p>Language: {item.bookDetails?.language}</p>
                   <p>Fiction: {item.bookDetails?.fiction ? 'Yes' : 'No'}</p>
                   <p>Genre: {item.bookDetails?.genre?.join(', ')}</p>
-                </>
+                </Section>
               )}
 
               {item.itemType === 'MOVIE' && (
-                <>
+                <Section>
                   <p>Director: {item.movieDetails?.director}</p>
                   <p>Release year: {item.movieDetails?.releaseYear}</p>
                   <p>Genre: {item.movieDetails?.genre?.join(', ')}</p>
-                </>
+                </Section>
               )}
             </Card>
 

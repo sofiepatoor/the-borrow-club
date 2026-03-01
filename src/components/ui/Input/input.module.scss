@@ -17,10 +17,12 @@
   border: 1px solid var(--black);
   padding: var(--space-xs);
   width: 100%;
+  background-color: var(--white);
+  color: var(--black);
 
   &:hover,
   &:focus {
-    outline-color: var(--indigo);
+    outline-color: var(--blue);
   }
 }
 
