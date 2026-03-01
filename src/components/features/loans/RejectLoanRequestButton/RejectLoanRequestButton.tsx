@@ -13,7 +13,9 @@ export default function RejectLoanRequestButton({
   return (
     <form action={rejectLoanRequest} className={className}>
       <input type="hidden" name="loanRequestId" value={loanRequestId} />
-      <Button type="submit">Reject</Button>
+      <Button type="submit" variant="danger">
+        Reject
+      </Button>
     </form>
   );
 }

@@ -10,6 +10,7 @@ import {
 type BaseProps = {
   children: ReactNode;
   className?: string;
+  variant?: 'primary' | 'secondary' | 'danger';
 };
 
 type ButtonAsButton = BaseProps &
@@ -28,8 +29,8 @@ import styles from './button.module.scss';
 
 const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, Props>(
   function Button(props, ref) {
-    const { children, className } = props;
-    const classNames = clsx(styles.button, className);
+    const { children, className, variant = 'primary' } = props;
+    const classNames = clsx(styles.button, styles[variant], className);
 
     if ('href' in props && props.href) {
       const { href, ...rest } = props;

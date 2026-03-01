@@ -13,7 +13,9 @@ export default function RejectFriendRequestButton({
   return (
     <form action={deleteFriendship} className={className}>
       <input type="hidden" name="friendshipId" value={friendshipId} />
-      <Button type="submit">Reject</Button>
+      <Button type="submit" variant="danger">
+        Reject
+      </Button>
     </form>
   );
 }

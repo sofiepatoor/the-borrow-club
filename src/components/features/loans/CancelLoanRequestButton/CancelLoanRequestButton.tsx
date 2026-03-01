@@ -13,7 +13,9 @@ export default function CancelLoanRequestButton({
   return (
     <form action={cancelLoanRequest} className={className}>
       <input type="hidden" name="loanRequestId" value={loanRequestId} />
-      <Button type="submit">Cancel request</Button>
+      <Button type="submit" variant="danger">
+        Cancel request
+      </Button>
     </form>
   );
 }
