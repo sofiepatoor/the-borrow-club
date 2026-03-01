@@ -11,7 +11,7 @@ import {
 import { createItem, type CreateItemResult } from '@/app/actions/items';
 import Button from '@/components/ui/Button';
 import { Input, Select, TextArea, Fieldset } from '@/components/ui/Input';
-import SearchMetadataButton from '@/components/features/library/SearchMetadataButton';
+import SearchMetadataModal from '@/components/features/library/SearchMetadataModal';
 
 import styles from './add-item-form.module.scss';
 
@@ -175,7 +175,8 @@ export default function AddItemForm({ userId }: { userId: string }) {
         id="itemType"
         name="itemType"
         label="Type"
-        value={itemType}
+        value={''}
+        placeholder="Select type"
         onChange={(e) =>
           setFormValues((prev) => ({
             ...prev,
@@ -202,7 +203,7 @@ export default function AddItemForm({ userId }: { userId: string }) {
       )}
 
       {itemType === 'BOOK' && (
-        <SearchMetadataButton
+        <SearchMetadataModal
           itemType="BOOK"
           onSelectMetadata={(data) => {
             const rest = { ...data };
@@ -213,12 +214,12 @@ export default function AddItemForm({ userId }: { userId: string }) {
             }));
           }}
         >
-          Search for book details
-        </SearchMetadataButton>
+          <Button>Search for book details</Button>
+        </SearchMetadataModal>
       )}
 
       {itemType === 'MOVIE' && (
-        <SearchMetadataButton
+        <SearchMetadataModal
           itemType="MOVIE"
           onSelectMetadata={(data) => {
             const rest = { ...data };
@@ -229,8 +230,8 @@ export default function AddItemForm({ userId }: { userId: string }) {
             }));
           }}
         >
-          Search for movie details
-        </SearchMetadataButton>
+          <Button>Search for movie details</Button>
+        </SearchMetadataModal>
       )}
 
       <Button type="submit">Add item</Button>

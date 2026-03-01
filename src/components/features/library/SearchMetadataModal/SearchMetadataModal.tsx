@@ -12,23 +12,25 @@ import { Dialog } from 'radix-ui';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import Button from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import MetadataSearchResult from '@/components/ui/MetadataSearchResult';
 
 import type { BookFormData, MovieFormData } from '@/lib/metadata-mapping';
 
-type SearchMetadataButtonProps = {
+type SearchMetadataModalProps = {
   itemType: ItemType;
   onSelectMetadata: (data: BookFormData | MovieFormData) => void;
   className?: string;
   children: React.ReactNode;
 };
 
-import styles from '@/styles/modal.module.scss';
+import modalStyles from '@/styles/modal.module.scss';
+import styles from './search-metadata-modal.module.scss';
 
-export default function SearchMetadataButton({
+export default function SearchMetadataModal({
   itemType,
   onSelectMetadata,
   children,
-}: SearchMetadataButtonProps) {
+}: SearchMetadataModalProps) {
   const [searchResults, setSearchResults] = useState<
     BookFormData[] | MovieFormData[]
   >([]);
@@ -52,13 +54,11 @@ export default function SearchMetadataButton({
 
   return (
     <Dialog.Root open={isModalOpen} onOpenChange={setIsModalOpen}>
-      <Dialog.Trigger asChild>
-        <Button type="button">{children}</Button>
-      </Dialog.Trigger>
+      <Dialog.Trigger asChild>{children}</Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Overlay className={styles.overlay} />
-        <Dialog.Content className={styles.modalContent}>
-          <Dialog.Title className={styles.modalTitle}>
+        <Dialog.Overlay className={modalStyles.overlay} />
+        <Dialog.Content className={modalStyles.modalContent}>
+          <Dialog.Title className={modalStyles.modalTitle}>
             Search for {itemType}
           </Dialog.Title>
           <form
@@ -80,28 +80,23 @@ export default function SearchMetadataButton({
           </form>
 
           {searchResults.length > 0 && (
-            <ul>
+            <ul className={styles.resultsList}>
               {searchResults.map((result, index) => (
-                <li key={result.id ?? `${result.title}-${index}`}>
-                  <h3>{result.title}</h3>
-                  {result.description && <p>{result.description}</p>}
-                  {result.releaseYear && <p>{result.releaseYear}</p>}
-                  {'author' in result && result.author && (
-                    <p>{result.author}</p>
-                  )}
-                  <Button
-                    type="button"
-                    onClick={() => handleSelectResult(result)}
-                  >
-                    Use this
-                  </Button>
+                <li
+                  key={result.id ?? `${result.title}-${index}`}
+                  className={styles.resultItem}
+                >
+                  <MetadataSearchResult
+                    result={result}
+                    handleSelectResult={handleSelectResult}
+                  />
                 </li>
               ))}
             </ul>
           )}
 
           <Dialog.Close asChild>
-            <Button aria-label="Close" className={styles.closeButton}>
+            <Button aria-label="Close" className={modalStyles.closeButton}>
               <Cross2Icon />
             </Button>
           </Dialog.Close>
