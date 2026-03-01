@@ -4,16 +4,37 @@
   flex-direction: column;
   border: 2px solid var(--black);
   background-color: var(--white);
-  padding: var(--space-xs);
-  transition: background-color 0.15s ease-out;
+  transition: all 0.15s ease-out;
+  height: 100%;
 
   &:hover,
   &:focus-within {
-    background-color: rgb(from var(--indigo) r g b / 15%);
+    transform: translateY(-2px);
   }
 }
 
-.username {
+.userImgWrapper {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background-color: var(--white);
+  background-color: color-mix(in srgb, var(--blue) 33%, white);
+}
+
+.userImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
+}
+
+.userCardContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-xs);
+}
+
+.userName {
   font-size: 0.8rem;
   font-weight: 600;
   margin-bottom: 0;

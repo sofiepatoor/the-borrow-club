@@ -1,6 +1,7 @@
 'use client';
 
 import type { User } from '@/generated/prisma/client';
+import ProfileImage from '@/components/features/users/ProfileImage';
 
 type UserCardProps = {
   user: User;
@@ -13,12 +14,15 @@ function UserCard({ user }: UserCardProps) {
 
   return (
     <div className={styles.userCard}>
-      <p className={styles.username}>
-        <strong>{username}</strong>
-      </p>
-      <a href={`/users/${username}`} className={styles.viewProfileLink}>
-        <span className="vh">View profile</span>
-      </a>
+      <div className={styles.userImgWrapper}>
+        <ProfileImage user={user} className={styles.userImg} />
+      </div>
+      <div className={styles.userCardContent}>
+        <p className={styles.userName}>{user.name ? user.name : username}</p>
+        <a href={`/users/${username}`} className={styles.viewProfileLink}>
+          <span className="vh">View profile</span>
+        </a>
+      </div>
     </div>
   );
 }
