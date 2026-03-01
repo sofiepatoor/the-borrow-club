@@ -20,9 +20,6 @@ export default async function LibraryPage() {
     <div className={styles.page}>
       <Container>
         <h1>My library</h1>
-        <p>
-          <Link href="/">Back to home</Link>
-        </p>
 
         <Section className={styles.mainContent}>
           <div className={styles.itemsOverview}>
