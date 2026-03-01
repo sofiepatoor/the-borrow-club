@@ -105,7 +105,10 @@ export default async function ProfilePage({
 
             <Card>
               <h2>Borrow history</h2>
-              <LoansList loans={completedLoans as LoanWithRelations[]} />
+              <LoansList
+                currentUserId={currentUser.id}
+                loans={completedLoans as LoanWithRelations[]}
+              />
             </Card>
           </div>
         </div>

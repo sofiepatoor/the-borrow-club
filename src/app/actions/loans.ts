@@ -1,6 +1,7 @@
 'use server';
 
 import { getCurrentUserId } from '@/auth';
+import { Item, Loan, User } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 import { revalidatePath } from 'next/cache';
 
@@ -12,7 +13,13 @@ const itemInclude = {
   boardGameDetails: true,
 } as const;
 
-export async function getLoansForUser(userId: string) {
+export type LoanWithRelations = Loan & {
+  item: Item;
+  requester: User;
+  owner: User;
+};
+
+export async function getLoansForUser(userId: string): Promise<LoanWithRelations[]> {
   return await prisma.loan.findMany({
     where: {
       OR: [{ requesterId: userId }, { ownerId: userId }],

@@ -20,6 +20,7 @@ import LoanRequestsList, {
 import styles from './homepage.module.scss';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
+import Section from '@/components/ui/Section';
 
 export default async function Home() {
   const user = await getCurrentUser();
@@ -37,9 +38,11 @@ export default async function Home() {
 
   const recentlyAddedItems = await getVisibleItemsForUser(user.id, 6);
   const loans = await getLoansForUser(user.id);
-  const borrowingItems = loans.filter((loan) => loan.ownerId === user.id);
+  const borrowingItems = loans.filter(
+    (loan) => loan.ownerId === user.id && loan.endedAt === null,
+  );
   const borrowedFromYouItems = loans.filter(
-    (loan) => loan.requesterId === user.id,
+    (loan) => loan.requesterId === user.id && loan.endedAt === null,
   );
   const receivedLoanRequests = await getReceivedLoanRequestsForUser(user.id);
   const sentLoanRequests = await getSentLoanRequestsForUser(user.id);
@@ -57,25 +60,41 @@ export default async function Home() {
           </div>
 
           <Card className={styles.currentlyBorrowing}>
-            <h2>Currently borrowing</h2>
-            <LoansList loans={borrowingItems as LoanWithRelations[]} />
+            <Section>
+              <h2>Currently borrowing</h2>
+              <LoansList
+                currentUserId={user.id}
+                loans={borrowingItems as LoanWithRelations[]}
+              />
+            </Section>
 
-            <h3>Requests</h3>
-            <LoanRequestsList
-              currentUserId={user.id}
-              loanRequests={sentLoanRequests as LoanRequestWithRelations[]}
-            />
+            <Section>
+              <h3>Requests</h3>
+              <LoanRequestsList
+                currentUserId={user.id}
+                loanRequests={sentLoanRequests as LoanRequestWithRelations[]}
+              />
+            </Section>
           </Card>
 
           <Card className={styles.currentlyBorrowedFromYou}>
-            <h2>Borrowed from you</h2>
-            <LoansList loans={borrowedFromYouItems as LoanWithRelations[]} />
+            <Section>
+              <h2>Borrowed from you</h2>
+              <LoansList
+                currentUserId={user.id}
+                loans={borrowedFromYouItems as LoanWithRelations[]}
+              />
+            </Section>
 
-            <h3>Requests</h3>
-            <LoanRequestsList
-              currentUserId={user.id}
-              loanRequests={receivedLoanRequests as LoanRequestWithRelations[]}
-            />
+            <Section>
+              <h3>Requests</h3>
+              <LoanRequestsList
+                currentUserId={user.id}
+                loanRequests={
+                  receivedLoanRequests as LoanRequestWithRelations[]
+                }
+              />
+            </Section>
           </Card>
         </div>
       </Container>
