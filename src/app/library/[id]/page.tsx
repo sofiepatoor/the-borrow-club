@@ -1,5 +1,5 @@
 import { getCurrentUserId } from '@/auth';
-import type { ItemWithOwnerAndDetails } from '@/types/items';
+import { type ItemWithOwnerAndDetails } from '@/types/items';
 import { getItemByIdForUser } from '@/app/actions/items';
 import { getLoansForItem } from '@/app/actions/loans';
 import { ITEM_TYPE_LABELS } from '@/lib/item-types';
@@ -12,6 +12,7 @@ import { ArrowLeftIcon } from '@radix-ui/react-icons';
 import Button from '@/components/ui/Button';
 import ItemImage from '@/components/features/library/ItemImage';
 import ItemImageUpload from '@/components/features/library/ItemImageUpload';
+import EditItemButton from '@/components/features/library/EditItemButton';
 
 import styles from './item-page.module.scss';
 
@@ -67,7 +68,7 @@ export default async function ItemPage({
               {isOwnItem ? (
                 <>
                   <ItemImageUpload item={item} />
-                  <Button>Edit item details</Button>
+                  <EditItemButton userId={userId} item={item} />
                 </>
               ) : (
                 <Button>Ask to borrow</Button>

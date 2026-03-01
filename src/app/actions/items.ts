@@ -22,6 +22,7 @@ import { getCurrentUserId } from '@/auth';
 const VALID_ITEM_TYPES = new Set(Object.values(ItemTypeEnum));
 
 export type CreateItemResult = { error?: string };
+export type UpdateItemResult = { error?: string };
 
 export async function createItem(
   formData: FormData,
@@ -147,6 +148,151 @@ export async function createItem(
 
   revalidatePath('/');
   revalidatePath('/library');
+  return {};
+}
+
+export async function updateItem(
+  formData: FormData,
+): Promise<UpdateItemResult> {
+  const itemIdRaw = formData.get('itemId');
+  const itemId =
+    typeof itemIdRaw === 'string' ? parseInt(itemIdRaw, 10) : Number.NaN;
+  if (Number.isNaN(itemId)) {
+    return { error: 'Invalid item' };
+  }
+
+  const userId = await getCurrentUserId();
+  if (!userId) {
+    return { error: 'You must be signed in to edit an item' };
+  }
+
+  const existingItem = await prisma.item.findUnique({
+    where: { id: itemId },
+    include: {
+      bookDetails: true,
+      movieDetails: true,
+      videoGameDetails: true,
+      boardGameDetails: true,
+    },
+  });
+
+  if (!existingItem || existingItem.ownerId !== userId) {
+    return { error: 'Unauthorized' };
+  }
+
+  const title = formData.get('title') as string | null;
+  const description = (formData.get('description') as string) ?? '';
+
+  if (!title?.trim()) {
+    return { error: 'Title is required' };
+  }
+
+  const itemType = existingItem.itemType as ItemTypeValue;
+
+  if (itemType === 'BOOK') {
+    const author = (formData.get('author') as string)?.trim();
+    if (!author) {
+      return { error: 'Author is required for books' };
+    }
+  }
+
+  await prisma.$transaction(async (tx) => {
+    await tx.item.update({
+      where: { id: itemId },
+      data: {
+        title: title.trim(),
+        description: description.trim() || undefined,
+      },
+    });
+
+    switch (itemType) {
+      case 'BOOK': {
+        const author = (formData.get('author') as string)?.trim() ?? '';
+        const releaseYear = parseOptionalInt(formData, 'releaseYear');
+        const language =
+          (formData.get('language') as string)?.trim() || undefined;
+        const fiction = parseCheckbox(formData, 'fiction');
+        const genre = filterEnumValues(
+          formData.getAll('genre'),
+          BookGenre as Record<string, string>,
+        ) as import('@/generated/prisma/client').BookGenre[];
+        await tx.bookItemDetails.update({
+          where: { itemId },
+          data: {
+            author,
+            releaseYear,
+            language,
+            fiction,
+            genre,
+          },
+        });
+        break;
+      }
+      case 'MOVIE': {
+        const director =
+          (formData.get('director') as string)?.trim() || undefined;
+        const releaseYear = parseOptionalInt(formData, 'releaseYear');
+        const genre = filterEnumValues(
+          formData.getAll('genre'),
+          MovieGenre as Record<string, string>,
+        ) as import('@/generated/prisma/client').MovieGenre[];
+        await tx.movieItemDetails.update({
+          where: { itemId },
+          data: {
+            director,
+            releaseYear,
+            genre,
+          },
+        });
+        break;
+      }
+      case 'VIDEO_GAME': {
+        const platformRaw = formData.get('platform') as string | null;
+        const platform =
+          platformRaw &&
+          Object.values(VideoGamePlatform).includes(platformRaw as never)
+            ? (platformRaw as keyof typeof VideoGamePlatform)
+            : undefined;
+        const genre = filterEnumValues(
+          formData.getAll('genre'),
+          VideoGameGenre as Record<string, string>,
+        ) as import('@/generated/prisma/client').VideoGameGenre[];
+        await tx.videoGameItemDetails.update({
+          where: { itemId },
+          data: {
+            platform: platform ?? undefined,
+            genre,
+          },
+        });
+        break;
+      }
+      case 'BOARD_GAME': {
+        const minPlayers = parseOptionalInt(formData, 'minPlayers');
+        const maxPlayers = parseOptionalInt(formData, 'maxPlayers');
+        const cooperative = parseCheckbox(formData, 'cooperative');
+        const genre = filterEnumValues(
+          formData.getAll('genre'),
+          BoardGameGenre as Record<string, string>,
+        ) as import('@/generated/prisma/client').BoardGameGenre[];
+        await tx.boardGameItemDetails.update({
+          where: { itemId },
+          data: {
+            minPlayers,
+            maxPlayers,
+            cooperative,
+            genre,
+          },
+        });
+        break;
+      }
+      case 'OTHER':
+        break;
+    }
+  });
+
+  revalidatePath('/');
+  revalidatePath('/library');
+  revalidatePath(`/library/${itemId}`);
   return {};
 }
 
