@@ -39,10 +39,10 @@ export default async function Home() {
   const recentlyAddedItems = await getVisibleItemsForUser(user.id, 6);
   const loans = await getLoansForUser(user.id);
   const borrowingItems = loans.filter(
-    (loan) => loan.ownerId === user.id && loan.endedAt === null,
+    (loan) => loan.requesterId === user.id && loan.endedAt === null,
   );
   const borrowedFromYouItems = loans.filter(
-    (loan) => loan.requesterId === user.id && loan.endedAt === null,
+    (loan) => loan.ownerId === user.id && loan.endedAt === null,
   );
   const receivedLoanRequests = await getReceivedLoanRequestsForUser(user.id);
   const sentLoanRequests = await getSentLoanRequestsForUser(user.id);
