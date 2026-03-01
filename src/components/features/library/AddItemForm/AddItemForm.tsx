@@ -1,6 +1,6 @@
 'use client';
 
-import { useActionState, useState } from 'react';
+import { useActionState, useState, useEffect } from 'react';
 import Form from 'next/form';
 import {
   ITEM_TYPE_OPTIONS,
@@ -120,6 +120,13 @@ export default function AddItemForm({ userId }: { userId: string }) {
     async (_prev, formData) => createItem(formData),
     null,
   );
+
+  useEffect(() => {
+    if (state && !state.error) {
+      const id = setTimeout(() => setFormValues({ itemType: 'OTHER' }), 0);
+      return () => clearTimeout(id);
+    }
+  }, [state]);
 
   const itemType = (formValues.itemType as ItemType) ?? 'OTHER';
 
