@@ -7,10 +7,20 @@ import { FriendshipStatus } from '@/generated/prisma/enums';
 import Section from '@/components/ui/Section';
 import FriendRequestCard from '@/components/ui/FriendRequestCard/FriendRequestCard';
 
-import styles from './friend-requests-list.module.scss';
+type FriendRequestsListProps = {
+  userId: string;
+};
 
-async function FriendRequestsList({ userId }: { userId: string }) {
-  const currentUserId = userId;
+import styles from './friend-requests-list.module.scss';
+import { getCurrentUserId } from '@/auth';
+
+async function FriendRequestsList({ userId }: FriendRequestsListProps) {
+  const currentUserId = await getCurrentUserId();
+
+  if (!currentUserId || userId !== currentUserId) {
+    return null;
+  }
+
   const allFriendRequests = await getFriendshipsForUser(
     userId,
     FriendshipStatus.PENDING,
@@ -20,7 +30,6 @@ async function FriendRequestsList({ userId }: { userId: string }) {
     <div className={styles.wrapper}>
       {allFriendRequests.length > 0 && (
         <Section>
-          <h3>Friend requests</h3>
           <ul>
             {allFriendRequests.map((friendship: FriendshipWithFriend) => {
               return (

@@ -5,17 +5,24 @@ import {
 import { FriendshipStatus } from '@/generated/prisma/enums';
 import UserCard from '@/components/ui/UserCard/UserCard';
 
+type FriendsListProps = {
+  userId: string;
+  isOwnProfile: boolean;
+};
+
 import styles from './friends-list.module.scss';
 
-async function FriendsList({ userId }: { userId: string }) {
-  const currentUserId = userId;
+async function FriendsList({ userId, isOwnProfile }: FriendsListProps) {
   const allFriendships = await getFriendshipsForUser(userId);
   const friends = allFriendships.filter(
     (f: FriendshipWithFriend) => f.status === FriendshipStatus.ACCEPTED,
   );
 
   if (friends.length === 0) {
-    return <p>You don&apos;t have any friends yet.</p>;
+    if (isOwnProfile) {
+      return <p>You don&apos;t have any friends yet.</p>;
+    }
+    return <p>This user doesn&apos;t have any friends yet.</p>;
   }
 
   return (
@@ -25,7 +32,7 @@ async function FriendsList({ userId }: { userId: string }) {
           <li key={friendship.id}>
             <UserCard
               user={
-                friendship.user.id === currentUserId
+                friendship.user.id === userId
                   ? friendship.friend
                   : friendship.user
               }

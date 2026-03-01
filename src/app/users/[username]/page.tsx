@@ -92,24 +92,28 @@ export default async function ProfilePage({
               <Section verticalPadding="0">
                 <SectionHeader>
                   <h2>Friends</h2>
-                  <SearchUsersModal userId={user.id}>
-                    <Button>Search users</Button>
-                  </SearchUsersModal>
+                  {isOwnProfile && (
+                    <SearchUsersModal userId={user.id}>
+                      <Button>Search users</Button>
+                    </SearchUsersModal>
+                  )}
                 </SectionHeader>
 
-                <FriendsList userId={user.id} />
+                <FriendsList userId={user.id} isOwnProfile={isOwnProfile} />
               </Section>
 
               <FriendRequestsList userId={user.id} />
             </Card>
 
-            <Card>
-              <h2>Borrow history</h2>
-              <LoansList
-                currentUserId={currentUser.id}
-                loans={completedLoans as LoanWithRelations[]}
-              />
-            </Card>
+            {isOwnProfile && (
+              <Card>
+                <h2>Borrow history</h2>
+                <LoansList
+                  currentUserId={currentUser.id}
+                  loans={completedLoans as LoanWithRelations[]}
+                />
+              </Card>
+            )}
           </div>
         </div>
       </Container>
