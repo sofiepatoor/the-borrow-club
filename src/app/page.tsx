@@ -62,6 +62,7 @@ export default async function Home() {
 
             <h3>Requests</h3>
             <LoanRequestsList
+              currentUserId={user.id}
               loanRequests={sentLoanRequests as LoanRequestWithRelations[]}
             />
           </Card>
@@ -72,6 +73,7 @@ export default async function Home() {
 
             <h3>Requests</h3>
             <LoanRequestsList
+              currentUserId={user.id}
               loanRequests={receivedLoanRequests as LoanRequestWithRelations[]}
             />
           </Card>

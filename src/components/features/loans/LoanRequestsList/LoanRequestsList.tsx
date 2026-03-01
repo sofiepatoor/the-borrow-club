@@ -1,6 +1,8 @@
 import type { User, LoanRequest } from '@/generated/prisma/client';
 import type { ItemWithOwnerAndDetails } from '@/types/items';
 
+import LoanRequestCard from '@/components/ui/LoanRequestCard/LoanRequestCard';
+
 export type LoanRequestWithRelations = LoanRequest & {
   item: ItemWithOwnerAndDetails;
   requester: User;
@@ -8,29 +10,31 @@ export type LoanRequestWithRelations = LoanRequest & {
 };
 
 type LoanRequestsListProps = {
+  currentUserId: string;
   loanRequests: LoanRequestWithRelations[];
 };
 
 import styles from './loan-requests-list.module.scss';
 
-function LoanRequestsList({ loanRequests }: LoanRequestsListProps) {
+function LoanRequestsList({
+  currentUserId,
+  loanRequests,
+}: LoanRequestsListProps) {
   if (loanRequests.length === 0) {
     return <p>No items found</p>;
   }
 
   return (
-    <div className={styles.wrapper}>
-      <ul className={styles.list}>
-        {loanRequests.map((loanRequest) => (
-          <li key={loanRequest.id}>
-            <p>
-              <strong>{loanRequest.item.title}</strong>
-            </p>
-            <p>Requested by: {loanRequest.requester.email}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <ul className={styles.list}>
+      {loanRequests.map((loanRequest) => (
+        <li key={loanRequest.id}>
+          <LoanRequestCard
+            currentUserId={currentUserId}
+            loanRequest={loanRequest}
+          />
+        </li>
+      ))}
+    </ul>
   );
 }
 

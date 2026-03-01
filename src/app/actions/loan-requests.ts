@@ -3,7 +3,12 @@
 import { revalidatePath } from 'next/cache';
 import { prisma } from '@/lib/prisma';
 import { getCurrentUserId } from '@/auth';
-import { LoanRequestStatus } from '@/generated/prisma/client';
+import {
+  Item,
+  LoanRequest,
+  LoanRequestStatus,
+  User,
+} from '@/generated/prisma/client';
 
 const itemInclude = {
   owner: true,
@@ -12,6 +17,12 @@ const itemInclude = {
   videoGameDetails: true,
   boardGameDetails: true,
 } as const;
+
+export type LoanRequestWithRelations = LoanRequest & {
+  item: Item;
+  requester: User;
+  owner: User;
+};
 
 export async function getSentLoanRequestsForUser(userId: string) {
   return await prisma.loanRequest.findMany({
@@ -35,6 +46,7 @@ export async function getReceivedLoanRequestsForUser(userId: string) {
     include: {
       item: { include: itemInclude },
       requester: true,
+      owner: true,
     },
   });
 }
