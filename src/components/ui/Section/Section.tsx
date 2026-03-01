@@ -4,14 +4,18 @@ import styles from './section.module.scss';
 type SectionProps = {
   as?: 'section' | 'div';
   children: React.ReactNode;
-  verticalPadding?: 'sm' | 'md' | 'lg' | 'xl';
+  verticalPadding?: '0' | 'sm' | 'md' | 'lg' | 'xl';
+  topPadding?: '0' | 'sm' | 'md' | 'lg' | 'xl';
+  bottomPadding?: '0' | 'sm' | 'md' | 'lg' | 'xl';
   className?: string;
 };
 
-function Section({
+export default function Section({
   as = 'section',
   children,
   verticalPadding = 'sm',
+  topPadding = '0',
+  bottomPadding = '0',
   className,
 }: SectionProps) {
   const As = as;
@@ -20,6 +24,8 @@ function Section({
       className={clsx(
         styles.section,
         styles[`py-${verticalPadding}`],
+        styles[`pt-${topPadding}`],
+        styles[`pb-${bottomPadding}`],
         className,
       )}
     >
@@ -28,4 +34,6 @@ function Section({
   );
 }
 
-export default Section;
+export function SectionHeader({ children }: { children: React.ReactNode }) {
+  return <div className={styles.sectionHeader}>{children}</div>;
+}
