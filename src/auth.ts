@@ -34,12 +34,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (user) {
         token.id = user.id;
         token.username = user.username;
+        token.name = user.name;
       }
       return token;
     },
     session({ session, token }) {
       session.user.id = token.id as string;
       session.user.username = token.username as string;
+      session.user.name = token.name as string | null;
       return session;
     },
   },

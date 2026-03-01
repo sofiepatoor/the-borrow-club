@@ -11,11 +11,15 @@ import styles from './user-dropdown.module.scss';
 async function UserDropdown() {
   const user = await getCurrentUser();
 
+  if (!user) {
+    return null;
+  }
+
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
         <button className={styles.trigger}>
-          {user?.username}
+          {user.name ? user.name : user.username}
           <ChevronDownIcon className={styles.triggerIcon} />
         </button>
       </DropdownMenu.Trigger>

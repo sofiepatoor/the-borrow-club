@@ -46,7 +46,7 @@ export default async function ProfilePage({
   return (
     <div>
       <Container>
-        <h1>{user.username}&apos;s Profile</h1>
+        <h1>{user.name ? `${user.name}` : user.username}&apos;s Profile</h1>
 
         <div className={styles.contentWrapper}>
           <div className={styles.sidebar}>
