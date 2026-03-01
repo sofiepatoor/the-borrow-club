@@ -78,11 +78,13 @@ export default async function ProfilePage({
           <div className={styles.main}>
             <Card className={styles.description}>
               <h2>About me</h2>
-              {user.bio ? (
-                <p>{user.bio}</p>
-              ) : (
-                <p>This user has not added a bio yet.</p>
-              )}
+              <div className="rte">
+                {user.bio ? (
+                  <p>{user.bio}</p>
+                ) : (
+                  <p>This user has not added a bio yet.</p>
+                )}
+              </div>
             </Card>
 
             <Card className={styles.friends}>

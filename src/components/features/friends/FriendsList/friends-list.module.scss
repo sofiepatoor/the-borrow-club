@@ -1,12 +1,5 @@
 .list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  list-style: none;
-  padding: 0;
   gap: var(--space-xs);
-
-  li {
-    list-style: none;
-    padding: 0;
-  }
 }

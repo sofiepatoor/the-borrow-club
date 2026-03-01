@@ -125,9 +125,9 @@ export default async function ItemPage({
             <Card>
               <h2>Details</h2>
               {item.description && (
-                <>
+                <div className="rte">
                   <p>{item.description}</p>
-                </>
+                </div>
               )}
 
               {item.itemType === 'BOOK' && (
