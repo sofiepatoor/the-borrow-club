@@ -1,6 +1,7 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import { getFriendIdsForUser } from './friendships';
 import { type ItemType as ItemTypeValue } from '@/lib/item-types';
@@ -359,4 +360,34 @@ export async function getItemByIdForUser(id: number, userId: string) {
       boardGameDetails: true,
     },
   });
+}
+
+export async function deleteItem(formData: FormData): Promise<void> {
+  try {
+    const userId = await getCurrentUserId();
+    if (!userId) return;
+
+    const itemIdRaw = formData.get('itemId');
+    const itemId =
+      typeof itemIdRaw === 'string' ? parseInt(itemIdRaw, 10) : Number.NaN;
+    if (Number.isNaN(itemId)) return;
+
+    const item = await prisma.item.findUnique({
+      where: { id: itemId },
+    });
+    if (!item || item.ownerId !== userId) return;
+
+    await prisma.$transaction(async (tx) => {
+      await tx.loanRequest.deleteMany({ where: { itemId } });
+      await tx.loan.deleteMany({ where: { itemId } });
+      await tx.item.delete({ where: { id: itemId } });
+    });
+
+    revalidatePath('/');
+    revalidatePath('/library');
+  } catch {
+    // Error handled - page won't revalidate, user can retry
+    return;
+  }
+  redirect('/library');
 }

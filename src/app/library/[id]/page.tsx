@@ -14,6 +14,7 @@ import Button from '@/components/ui/Button';
 import ItemImage from '@/components/features/library/ItemImage';
 import ItemImageUpload from '@/components/features/library/ItemImageUpload';
 import EditItemModal from '@/components/features/library/EditItemModal';
+import DeleteItemButton from '@/components/features/library/DeleteItemButton';
 import RequestLoanButton from '@/components/features/loans/RequestLoanButton';
 import ReturnLoanButton from '@/components/features/loans/ReturnLoanButton';
 import LoansList from '@/components/features/loans/LoansList';
@@ -82,6 +83,7 @@ export default async function ItemPage({
                   <EditItemModal userId={userId} item={item}>
                     <Button>Edit item</Button>
                   </EditItemModal>
+                  <DeleteItemButton itemId={item.id} />
                 </>
               ) : item.isAvailable ? (
                 <RequestLoanButton
