@@ -1,8 +1,9 @@
 'use server';
 
 import { getCurrentUserId } from '@/auth';
-import { Item, Loan, User } from '@/generated/prisma/client';
+import { Loan, User } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
+import type { ItemWithOwnerAndDetails } from '@/types/items';
 import { revalidatePath } from 'next/cache';
 
 const itemInclude = {
@@ -14,12 +15,14 @@ const itemInclude = {
 } as const;
 
 export type LoanWithRelations = Loan & {
-  item: Item;
+  item: ItemWithOwnerAndDetails;
   requester: User;
   owner: User;
 };
 
-export async function getLoansForUser(userId: string): Promise<LoanWithRelations[]> {
+export async function getLoansForUser(
+  userId: string,
+): Promise<LoanWithRelations[]> {
   return await prisma.loan.findMany({
     where: {
       OR: [{ requesterId: userId }, { ownerId: userId }],
@@ -32,10 +35,13 @@ export async function getLoansForUser(userId: string): Promise<LoanWithRelations
   });
 }
 
-export async function getLoansForItem(itemId: number) {
+export async function getLoansForItem(
+  itemId: number,
+): Promise<LoanWithRelations[]> {
   return await prisma.loan.findMany({
     where: { itemId },
     include: {
+      item: { include: itemInclude },
       requester: true,
       owner: true,
     },

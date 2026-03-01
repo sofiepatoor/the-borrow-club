@@ -7,23 +7,38 @@ import Link from 'next/link';
 type LoanCardProps = {
   currentUserId: string;
   loan: LoanWithRelations;
+  onItemPage?: boolean;
 };
 
 import styles from './loan-card.module.scss';
 
-function LoanCard({ currentUserId, loan }: LoanCardProps) {
+function LoanCard({ currentUserId, loan, onItemPage = false }: LoanCardProps) {
   const { item, owner, requester, startedAt, endedAt } = loan;
   const isOwnerOfItem = owner?.id === currentUserId;
+  const isBorrower = requester?.id === currentUserId;
 
   return (
     <div className={styles.loanCard}>
       <div className={styles.itemDetails}>
-        <ItemImage item={item} className={styles.itemImage} />
+        {!onItemPage && <ItemImage item={item} className={styles.itemImage} />}
+
         <div>
-          <Link href={`/library/${item.id}`} className={styles.itemLink}>
-            {item.title}
-          </Link>
-          {isOwnerOfItem ? (
+          {!onItemPage && (
+            <Link href={`/library/${item.id}`} className={styles.itemLink}>
+              {item.title}
+            </Link>
+          )}
+
+          {onItemPage ? (
+            <p>
+              <Link href={`/users/${requester.id}`} className={styles.userLink}>
+                <strong>
+                  {requester.name ? requester.name : requester.username}
+                </strong>
+              </Link>{' '}
+              {isBorrower && <span> (you)</span>}
+            </p>
+          ) : isOwnerOfItem ? (
             <p>
               Borrowed by:{' '}
               <Link href={`/users/${requester.id}`} className={styles.userLink}>

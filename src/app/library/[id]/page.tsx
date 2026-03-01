@@ -15,12 +15,13 @@ import ItemImage from '@/components/features/library/ItemImage';
 import ItemImageUpload from '@/components/features/library/ItemImageUpload';
 import EditItemModal from '@/components/features/library/EditItemModal';
 import RequestLoanButton from '@/components/features/loans/RequestLoanButton';
-import AcceptLoanRequestButton from '@/components/features/loans/AcceptLoanRequestButton';
-import RejectLoanRequestButton from '@/components/features/loans/RejectLoanRequestButton';
-import CancelLoanRequestButton from '@/components/features/loans/CancelLoanRequestButton';
 import ReturnLoanButton from '@/components/features/loans/ReturnLoanButton';
+import LoansList from '@/components/features/loans/LoansList';
+import LoanRequestsList from '@/components/features/loans/LoanRequestsList';
+import Section from '@/components/ui/Section';
 
 import styles from './item-page.module.scss';
+import LoanCard from '@/components/ui/LoanCard';
 
 export default async function ItemPage({
   params,
@@ -43,14 +44,10 @@ export default async function ItemPage({
 
   const isOwnItem = item.ownerId === userId;
   const loans = await getLoansForItem(item.id);
-  const loanRequestsForItem = await getLoanRequestsForItem(item.id);
-  const pendingReceivedRequests = loanRequestsForItem.filter(
-    (r) => r.ownerId === userId,
-  );
-  const pendingSentRequest = loanRequestsForItem.find(
-    (r) => r.requesterId === userId,
-  );
   const activeLoan = loans.find((l) => !l.endedAt);
+  const pastLoans = loans.filter((l) => l.endedAt);
+  const loanRequestsForItem = await getLoanRequestsForItem(item.id);
+  const isBorrower = activeLoan?.requesterId === userId;
 
   return (
     <div>
@@ -85,34 +82,16 @@ export default async function ItemPage({
                   <EditItemModal userId={userId} item={item}>
                     <Button>Edit item</Button>
                   </EditItemModal>
-                  {pendingReceivedRequests.map((request) => (
-                    <span key={request.id}>
-                      <AcceptLoanRequestButton
-                        loanRequestId={request.id}
-                        className={styles.loanActionButton}
-                      />
-                      <RejectLoanRequestButton
-                        loanRequestId={request.id}
-                        className={styles.loanActionButton}
-                      />
-                    </span>
-                  ))}
-                  {activeLoan && (
-                    <ReturnLoanButton
-                      loanId={activeLoan.id}
-                      className={styles.loanActionButton}
-                    />
-                  )}
                 </>
-              ) : pendingSentRequest ? (
-                <CancelLoanRequestButton
-                  loanRequestId={pendingSentRequest.id}
-                  className={styles.loanActionButton}
-                />
               ) : item.isAvailable ? (
                 <RequestLoanButton
                   itemId={item.id}
                   ownerId={item.ownerId}
+                  className={styles.loanActionButton}
+                />
+              ) : isBorrower ? (
+                <ReturnLoanButton
+                  loanId={activeLoan.id}
                   className={styles.loanActionButton}
                 />
               ) : (
@@ -152,34 +131,34 @@ export default async function ItemPage({
 
             <Card>
               <h2>Borrow history</h2>
-              <ul>
-                {loans.map((loan) => (
-                  <li key={loan.id}>
-                    <p>
-                      Borrowed by:{' '}
-                      {loan.requester.name ?? loan.requester.username}
-                    </p>
-                    <p>
-                      Started at:{' '}
-                      {loan.startedAt.toLocaleDateString('en-GB', {
-                        day: 'numeric',
-                        month: 'numeric',
-                        year: 'numeric',
-                        timeZone: 'CET',
-                      })}
-                    </p>
-                    <p>
-                      Ended at:{' '}
-                      {loan.endedAt?.toLocaleDateString('en-GB', {
-                        day: 'numeric',
-                        month: 'numeric',
-                        year: 'numeric',
-                        timeZone: 'CET',
-                      })}
-                    </p>
-                  </li>
-                ))}
-              </ul>
+              <Section>
+                <h3>Requests</h3>
+                <LoanRequestsList
+                  currentUserId={userId}
+                  loanRequests={loanRequestsForItem}
+                  onItemPage={true}
+                />
+              </Section>
+
+              {activeLoan && (
+                <Section>
+                  <h3>Currently borrowed by</h3>
+                  <LoanCard
+                    currentUserId={userId}
+                    loan={activeLoan}
+                    onItemPage={true}
+                  />
+                </Section>
+              )}
+
+              <Section>
+                <h3>Past loans</h3>
+                <LoansList
+                  currentUserId={userId}
+                  loans={pastLoans}
+                  onItemPage={true}
+                />
+              </Section>
             </Card>
           </div>
         </div>

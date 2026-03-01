@@ -9,12 +9,17 @@ import CancelLoanRequestButton from '@/components/features/loans/CancelLoanReque
 type LoanRequestCardProps = {
   currentUserId: string;
   loanRequest: LoanRequestWithRelations;
+  onItemPage?: boolean;
 };
 
 import styles from './loan-request-card.module.scss';
 import Link from 'next/link';
 
-function LoanRequestCard({ currentUserId, loanRequest }: LoanRequestCardProps) {
+function LoanRequestCard({
+  currentUserId,
+  loanRequest,
+  onItemPage = false,
+}: LoanRequestCardProps) {
   const { item, requester, owner } = loanRequest;
   const isOwnerOfItem = owner?.id === currentUserId;
 
@@ -25,18 +30,20 @@ function LoanRequestCard({ currentUserId, loanRequest }: LoanRequestCardProps) {
           <Link href={`/users/${requester.id}`} className={styles.userLink}>
             {requester.name ? requester.name : requester.username}
           </Link>{' '}
-          wants to borrow:
+          wants to borrow{onItemPage ? ' this item' : ':'}
         </p>
       ) : (
-        <p>You asked to borrow:</p>
+        <p>You asked to borrow{onItemPage ? ' this item' : ':'}</p>
       )}
 
-      <div className={styles.itemDetails}>
-        <ItemImage item={item} className={styles.itemImage} />
-        <Link href={`/library/${item.id}`} className={styles.itemLink}>
-          {item.title}
-        </Link>
-      </div>
+      {!onItemPage && (
+        <div className={styles.itemDetails}>
+          <ItemImage item={item} className={styles.itemImage} />
+          <Link href={`/library/${item.id}`} className={styles.itemLink}>
+            {item.title}
+          </Link>
+        </div>
+      )}
 
       <div className={styles.buttons}>
         {isOwnerOfItem ? (

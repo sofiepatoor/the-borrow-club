@@ -4,11 +4,11 @@ import { revalidatePath } from 'next/cache';
 import { prisma } from '@/lib/prisma';
 import { getCurrentUserId } from '@/auth';
 import {
-  Item,
   LoanRequest,
   LoanRequestStatus,
   User,
 } from '@/generated/prisma/client';
+import type { ItemWithOwnerAndDetails } from '@/types/items';
 
 const itemInclude = {
   owner: true,
@@ -19,12 +19,14 @@ const itemInclude = {
 } as const;
 
 export type LoanRequestWithRelations = LoanRequest & {
-  item: Item;
+  item: ItemWithOwnerAndDetails;
   requester: User;
   owner: User;
 };
 
-export async function getSentLoanRequestsForUser(userId: string) {
+export async function getSentLoanRequestsForUser(
+  userId: string,
+): Promise<LoanRequestWithRelations[]> {
   return await prisma.loanRequest.findMany({
     where: {
       requesterId: userId,
@@ -32,12 +34,15 @@ export async function getSentLoanRequestsForUser(userId: string) {
     },
     include: {
       item: { include: itemInclude },
+      requester: true,
       owner: true,
     },
   });
 }
 
-export async function getReceivedLoanRequestsForUser(userId: string) {
+export async function getReceivedLoanRequestsForUser(
+  userId: string,
+): Promise<LoanRequestWithRelations[]> {
   return await prisma.loanRequest.findMany({
     where: {
       ownerId: userId,
@@ -51,13 +56,16 @@ export async function getReceivedLoanRequestsForUser(userId: string) {
   });
 }
 
-export async function getLoanRequestsForItem(itemId: number) {
+export async function getLoanRequestsForItem(
+  itemId: number,
+): Promise<LoanRequestWithRelations[]> {
   return await prisma.loanRequest.findMany({
     where: {
       itemId,
       status: LoanRequestStatus.PENDING,
     },
     include: {
+      item: { include: itemInclude },
       requester: true,
       owner: true,
     },
