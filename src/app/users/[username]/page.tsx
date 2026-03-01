@@ -17,9 +17,10 @@ import LoansList, {
 } from '@/components/features/loans/LoansList';
 import Button from '@/components/ui/Button';
 import FriendRequestsList from '@/components/features/friends/FriendRequestsList';
+import Section, { SectionHeader } from '@/components/ui/Section';
+import SearchUsersModal from '@/components/features/users/SearchUsersModal';
 
 import styles from './profile.module.scss';
-import Section from '@/components/ui/Section';
 
 export default async function ProfilePage({
   params,
@@ -88,8 +89,14 @@ export default async function ProfilePage({
             </Card>
 
             <Card className={styles.friends}>
-              <Section>
-                <h2>Friends</h2>
+              <Section verticalPadding="0">
+                <SectionHeader>
+                  <h2>Friends</h2>
+                  <SearchUsersModal userId={user.id}>
+                    <Button>Search users</Button>
+                  </SearchUsersModal>
+                </SectionHeader>
+
                 <FriendsList userId={user.id} />
               </Section>
 
