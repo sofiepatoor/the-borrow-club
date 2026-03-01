@@ -13,7 +13,7 @@ type SectionProps = {
 export default function Section({
   as = 'section',
   children,
-  verticalPadding = 'sm',
+  verticalPadding = '0',
   topPadding = '0',
   bottomPadding = '0',
   className,
