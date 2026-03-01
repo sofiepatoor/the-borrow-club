@@ -2,6 +2,7 @@ import { getCurrentUserId } from '@/auth';
 import { type ItemWithOwnerAndDetails } from '@/types/items';
 import { getItemByIdForUser } from '@/app/actions/items';
 import { getLoansForItem } from '@/app/actions/loans';
+import { getLoanRequestsForItem } from '@/app/actions/loan-requests';
 import { ITEM_TYPE_LABELS } from '@/lib/item-types';
 
 import Container from '@/components/ui/Container';
@@ -13,6 +14,11 @@ import Button from '@/components/ui/Button';
 import ItemImage from '@/components/features/library/ItemImage';
 import ItemImageUpload from '@/components/features/library/ItemImageUpload';
 import EditItemModal from '@/components/features/library/EditItemModal';
+import RequestLoanButton from '@/components/features/loans/RequestLoanButton';
+import AcceptLoanRequestButton from '@/components/features/loans/AcceptLoanRequestButton';
+import RejectLoanRequestButton from '@/components/features/loans/RejectLoanRequestButton';
+import CancelLoanRequestButton from '@/components/features/loans/CancelLoanRequestButton';
+import ReturnLoanButton from '@/components/features/loans/ReturnLoanButton';
 
 import styles from './item-page.module.scss';
 
@@ -37,6 +43,14 @@ export default async function ItemPage({
 
   const isOwnItem = item.ownerId === userId;
   const loans = await getLoansForItem(item.id);
+  const loanRequestsForItem = await getLoanRequestsForItem(item.id);
+  const pendingReceivedRequests = loanRequestsForItem.filter(
+    (r) => r.ownerId === userId,
+  );
+  const pendingSentRequest = loanRequestsForItem.find(
+    (r) => r.requesterId === userId,
+  );
+  const activeLoan = loans.find((l) => !l.endedAt);
 
   return (
     <div>
@@ -71,9 +85,38 @@ export default async function ItemPage({
                   <EditItemModal userId={userId} item={item}>
                     <Button>Edit item</Button>
                   </EditItemModal>
+                  {pendingReceivedRequests.map((request) => (
+                    <span key={request.id}>
+                      <AcceptLoanRequestButton
+                        loanRequestId={request.id}
+                        className={styles.loanActionButton}
+                      />
+                      <RejectLoanRequestButton
+                        loanRequestId={request.id}
+                        className={styles.loanActionButton}
+                      />
+                    </span>
+                  ))}
+                  {activeLoan && (
+                    <ReturnLoanButton
+                      loanId={activeLoan.id}
+                      className={styles.loanActionButton}
+                    />
+                  )}
                 </>
+              ) : pendingSentRequest ? (
+                <CancelLoanRequestButton
+                  loanRequestId={pendingSentRequest.id}
+                  className={styles.loanActionButton}
+                />
+              ) : item.isAvailable ? (
+                <RequestLoanButton
+                  itemId={item.id}
+                  ownerId={item.ownerId}
+                  className={styles.loanActionButton}
+                />
               ) : (
-                <Button>Ask to borrow</Button>
+                <p>This item is currently unavailable</p>
               )}
             </div>
           </div>

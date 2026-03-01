@@ -39,6 +39,19 @@ export async function getReceivedLoanRequestsForUser(userId: string) {
   });
 }
 
+export async function getLoanRequestsForItem(itemId: number) {
+  return await prisma.loanRequest.findMany({
+    where: {
+      itemId,
+      status: LoanRequestStatus.PENDING,
+    },
+    include: {
+      requester: true,
+      owner: true,
+    },
+  });
+}
+
 export async function createLoanRequest(formData: FormData) {
   const ownerId = formData.get('ownerId') as string;
   const itemId = parseInt(formData.get('itemId') as string);
