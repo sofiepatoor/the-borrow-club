@@ -14,6 +14,10 @@ async function FriendsList({ userId }: { userId: string }) {
     (f: FriendshipWithFriend) => f.status === FriendshipStatus.ACCEPTED,
   );
 
+  if (friends.length === 0) {
+    return <p>You don&apos;t have any friends yet.</p>;
+  }
+
   return (
     <ul className={styles.list}>
       {friends.map((friendship: FriendshipWithFriend) => {
