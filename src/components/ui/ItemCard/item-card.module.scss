@@ -6,6 +6,7 @@
   border: 2px solid var(--black);
   background-color: var(--white);
   transition: all 0.15s ease-out;
+  height: 100%;
 
   &:hover,
   &:focus-within {
