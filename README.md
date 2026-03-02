@@ -6,14 +6,24 @@ A **web app** where people can list the **physical media they own** (books, DVDs
 
 ## Current features
 
-- **Library view** – One page showing your items and your friends’ items, with owner shown per item
-- **Add items** – Add new items to your library (title only)
-- **Items & ownership** – Each item has one owner; a user can own many items
-- **Authentication** – Login and logout via magic link (email)
-- **Personal library** – Users only see and manage their own items in their library
-- **Friends** – Add other users as friends (send/accept/reject friend requests)
-- **Friends’ library** – View items owned by accepted friends
-- **Borrowing flow** – Request to borrow an item; owner can accept or reject; mark as borrowed when accepted and mark as returned when done
+- **Library**
+  - One view showing your items and your friends’ items (owner shown per item).
+  - Add, edit, and delete items.
+  - Item types: book, movie, video game, board game, other — each with type-specific fields (e.g. author, director, genre, release year).
+  - Optional metadata lookup to auto-fill item details.
+  - Item images: upload your own or use an image from metadata.
+- **Authentication**
+  - Login and logout via magic link (email); no passwords.
+- **Friends**
+  - Send friend requests to other users; accept or reject incoming requests.
+  - View friends’ libraries (items owned by accepted friends).
+  - User profile pages: view other users’ profiles; edit your own profile and upload a profile picture.
+- **Borrowing**
+  - Request to borrow an item from a friend; owner can accept or reject.
+  - When accepted: mark as borrowed; when done, mark as returned.
+  - Track active loans and pending requests (incoming and outgoing).
+- **Dashboard**
+  - Homepage with: recently added items (slider), items you’re currently borrowing, items borrowed from you, and loan requests (incoming and outgoing).
 
 ## Roadmap
 
@@ -39,8 +49,8 @@ A **web app** where people can list the **physical media they own** (books, DVDs
 - [x] Users can edit their profile and upload a profile picture
 - [x] Item media types (e.g. books, movies, games) and type-specific fields
 - [x] Option to fetch metadata of items
-- [ ] Item detail page
-- [ ] Improve general design & UI
+- [x] Item detail page
+- [ ] Improve general design & UX
 - [ ] Search and filter the library
 - [ ] User groups and item visibility restriction
 
